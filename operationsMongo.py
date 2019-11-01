@@ -51,7 +51,7 @@ def removeData(document_id):
     document = collection.delete_one({'_id': ObjectId(document_id)})
     return document.acknowledged
 
-search_this = "Aceton"
-dbprice, dbname = searchForItem(search_this)
+# search_this = "Aceton"
+# dbprice, dbname = searchForItem(search_this)
 # print(dbname)
 # print(getMultipleData())

@@ -1,6 +1,6 @@
-from PySide2 import QtWidgets
-from PySide2 import QtCore
-from PySide2 import QtGui
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from PyQt5 import QtGui
 import operationsMongo
 
 
@@ -89,7 +89,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
             selected_column = self.columns[index.column()]
             selected_row[selected_column] = value
             self.dataChanged.emit(index, index, (QtCore.Qt.DisplayRole, ))
-            ok = operationsMongo.update_existing(selected_row['_id'], selected_row)
+            ok = operationsMongo.updateData(selected_row['_id'], selected_row)
             if ok:
                 return True
         return False
@@ -98,8 +98,8 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         row_count = len(self.user_data)
         self.beginInsertRows(QtCore.QModelIndex(), row_count, row_count)
         empty_data = { key: None for key in self.columns if not key=='_id'}
-        document_id = operationsMongo.insert_data(empty_data)
-        new_data = operationsMongo.get_single_data(document_id)
+        document_id = operationsMongo.insertData(empty_data)
+        new_data = operationsMongo.getSingleData(document_id)
         self.user_data.append(new_data)
         row_count += 1
         self.endInsertRows()
@@ -111,7 +111,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        operationsMongo.remove_data(document_id)
+        operationsMongo.removeData(document_id)
         self.user_data.pop(row_id)
         self.endRemoveRows()
         return True
