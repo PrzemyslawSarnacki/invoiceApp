@@ -8,7 +8,7 @@ from bson import ObjectId
 myclient = pymongo.MongoClient('mongodb://localhost:27017')
 database = myclient.mongotest
 # ASOR is the name of collection in mongotest database
-collection = database.ASOR  
+collection = database.ASOR
 
 # By using create_index you can search specified key 
 # in collection(NAZWA in this case)
@@ -51,7 +51,7 @@ def removeData(document_id):
     document = collection.delete_one({'_id': ObjectId(document_id)})
     return document.acknowledged
 
-search_this = "promocja"
+search_this = "Aceton"
 dbprice, dbname = searchForItem(search_this)
 # print(dbname)
-print(getMultipleData())
+# print(getMultipleData())
