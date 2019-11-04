@@ -5,7 +5,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/images/app.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/images/app.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.frame_2)
         self.label.setMaximumSize(QtCore.QSize(40, 40))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(":/icons/images/app.png"))
+        self.label.setPixmap(QtGui.QPixmap(":/images/app.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
@@ -74,7 +74,9 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "Python MongoDB Application", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "MongoDB Database Application (TreeView and Custom Model)", None, -1))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
+        self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
         self.menuAbout.setTitle(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
         self.actionAbout_Application.setText(QtWidgets.QApplication.translate("MainWindow", "About Application", None, -1))
+
+# import icons_rc

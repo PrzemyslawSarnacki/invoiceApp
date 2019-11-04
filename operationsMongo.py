@@ -33,7 +33,7 @@ def getSingleData(document_id):
 
 
 def getMultipleData():
-    data = collection.find().limit(10)
+    data = collection.find().limit(20)
     return list(data)
 
 
