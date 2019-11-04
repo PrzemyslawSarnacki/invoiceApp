@@ -8,10 +8,6 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super(PythonMongoDB, self).__init__()
         self.setupUi(self)
-
-        # data = {'photo': ":/icons/images/photo.jpg",  'name': 'rajiv'}
-        # databaseOperations.insert_data(data)
-
         self.user_data = operationsMongo.getMultipleData()
         self.model = customModel.CustomTableModel(self.user_data)
         self.delegate = customModel.InLineEditDelegate()
