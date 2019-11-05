@@ -2,9 +2,7 @@ import pymongo
 import re
 from bson import ObjectId
 
-
-#Search for item in certain collection 
-collectionName = "ASOR"
+# collectionName = "ASOR"
 
 class Database:
     def __init__(self, collectionName):
@@ -15,6 +13,7 @@ class Database:
         # ASOR is the name of collection in mongotest database
         self.collection = database[collectionName]
 
+#Search for item in certain collection 
 # By using create_index you can search specified key 
 # in collection(NAZWA in this case)
 # collection.create_index([('NAZWA', 'text')])
