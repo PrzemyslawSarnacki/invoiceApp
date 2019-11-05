@@ -63,15 +63,15 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         row = self.user_data[index.row()]
         column = self.columns[index.column()]
         try:
-            if index.column() == 1:
-                selected_row = self.user_data[index.row()]
-                image_data = selected_row['photo']
-                image = QtGui.QImage()
-                image.loadFromData(image_data)
-                icon = QtGui.QIcon()
-                icon.addPixmap(QtGui.QPixmap.fromImage(image))
-                return icon
-            elif role == QtCore.Qt.DisplayRole:
+            # if index.column() == 1:
+            #     selected_row = self.user_data[index.row()]
+            #     image_data = selected_row['photo']
+            #     image = QtGui.QImage()
+            #     image.loadFromData(image_data)
+            #     icon = QtGui.QIcon()
+            #     icon.addPixmap(QtGui.QPixmap.fromImage(image))
+            #     return icon
+            if role == QtCore.Qt.DisplayRole:
                 return str(row[column])
         except KeyError:
             return None

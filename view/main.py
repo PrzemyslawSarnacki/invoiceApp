@@ -79,4 +79,4 @@ class Ui_MainWindow(object):
         self.menuAbout.setTitle(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
         self.actionAbout_Application.setText(QtWidgets.QApplication.translate("MainWindow", "About Application", None, -1))
 
-# import icons_rc
+import icons_rc
