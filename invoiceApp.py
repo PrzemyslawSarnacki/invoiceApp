@@ -9,8 +9,12 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
         super(PythonMongoDB, self).__init__()
         self.setupUi(self)
-        self.user_data = operationsMongo.getMultipleData()
+        self.user_data = operationsMongo.Database("ASOR").getMultipleData()
+        self.user_data_2 = operationsMongo.Database("KARTA1").getMultipleData()
+        self.user_data_3 = operationsMongo.Database("KARTA2").getMultipleData()
         self.model = customModel.CustomTableModel(self.user_data)
+        self.model_2 = customModel.CustomTableModel(self.user_data_2)
+        self.model_3 = customModel.CustomTableModel(self.user_data_3)
         self.delegate = customModel.InLineEditDelegate()
         self.tableView.setModel(self.model)
         # self.tableView.setItemDelegate(self.delegate)
@@ -27,8 +31,8 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView.hideColumn(15)
         self.tableView.hideColumn(16)
         # self.tableView.hideColumn(7)
-        self.tableView_2.setModel(self.model)
-        self.tableView_3.setModel(self.model)
+        self.tableView_2.setModel(self.model_2)
+        self.tableView_3.setModel(self.model_3)
 
     def context_menu(self):
         menu = QtWidgets.QMenu()
