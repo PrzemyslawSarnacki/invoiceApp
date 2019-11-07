@@ -5,9 +5,10 @@ import operationsMongo
 
 
 class CustomTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, data):
+    def __init__(self, data, collectionName):
         QtCore.QAbstractTableModel.__init__(self)
         self.user_data = data
+        self.collection = collectionName
         self.columns = list(self.user_data[0].keys())
 
     def flags(self, index):
@@ -89,7 +90,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
             selected_column = self.columns[index.column()]
             selected_row[selected_column] = value
             self.dataChanged.emit(index, index, (QtCore.Qt.DisplayRole, ))
-            ok = operationsMongo.updateData(selected_row['_id'], selected_row)
+            ok = operationsMongo.Database(self.collection).updateData(selected_row['_id'], selected_row)
             if ok:
                 return True
         return False
@@ -98,8 +99,8 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         row_count = len(self.user_data)
         self.beginInsertRows(QtCore.QModelIndex(), row_count, row_count)
         empty_data = { key: None for key in self.columns if not key=='_id'}
-        document_id = operationsMongo.insertData(empty_data)
-        new_data = operationsMongo.getSingleData(document_id)
+        document_id = operationsMongo.Database(self.collection).insertData(empty_data)
+        new_data = operationsMongo.Database(self.collection).getSingleData(document_id)
         self.user_data.append(new_data)
         row_count += 1
         self.endInsertRows()
@@ -111,7 +112,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        operationsMongo.removeData(document_id)
+        operationsMongo.Database(self.collection).removeData(document_id)
         self.user_data.pop(row_id)
         self.endRemoveRows()
         return True
