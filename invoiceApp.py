@@ -37,18 +37,18 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def context_menu(self):
         menu = QtWidgets.QMenu()
         add_data = menu.addAction("Add New Data")
-        add_data.setIcon(QtGui.QIcon(":/view/images/add-icon.png"))
+        add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         add_data.triggered.connect(lambda: self.model.insertRows())
         if self.tableView.selectedIndexes():
             remove_data = menu.addAction("Remove Data")
-            remove_data.setIcon(QtGui.QIcon(":/view/images/remove.png"))
+            remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
             remove_data.triggered.connect(lambda: self.model.removeRows(self.tableView.currentIndex()))
         cursor = QtGui.QCursor()
         menu.exec_(cursor.pos())
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication([])    
+    app = QtWidgets.QApplication([]) 
     my_app = PythonMongoDB()
     my_app.show()
     app.exec_()
