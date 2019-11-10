@@ -5,10 +5,9 @@ import generateInvoice
 import customModel
 import icons_rc
 
-invoice = generateInvoice.setClient('Adfasd', 'efFdsf', 'AFAAF', '')
+# invoice = generateInvoice.setClient('Adfasd', 'efFdsf', 'AFAAF', '')
 
 class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
- 
 
     def __init__(self):
         super(PythonMongoDB, self).__init__()
@@ -39,12 +38,12 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_2.setModel(self.model_2)
         self.tableView_2.setItemDelegate(self.delegate)
         self.tableView_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.tableView_2.customContextMenuRequested.connect(lambda : self.context_menu(self.model_2, self.tableView_2))
+        self.tableView_2.customContextMenuRequested.connect(lambda : self.context_menu_client(self.model_2, self.tableView_2))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(invoice))
         self.tableView_3.setModel(self.model_3)
         self.tableView_3.setItemDelegate(self.delegate)
 
-    def context_menu(self, varModel , varTableView):
+    def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
         refresh_data = menu.addAction("Refresh Data")
         refresh_data.triggered.connect(lambda: varModel.getMultipleData(varTableView.currentIndex()))
@@ -60,7 +59,30 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
             remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
         cursor = QtGui.QCursor()
         menu.exec_(cursor.pos())
-
+    
+    
+    def context_menu_client(self, varModel , varTableView):
+        menu = QtWidgets.QMenu()
+        set_client_for_invoice = menu.addAction("Choose this Client")
+        set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+        x = lambda : (varModel.setClientForInvoice(varTableView.currentIndex()))
+        set_client_for_invoice.triggered.connect(x)
+        y = x()
+        invoice = generateInvoice.setClient(y, 'clientAddress', 'clientContact', '')
+        debug = menu.addAction("Debug")
+        debug.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+        debug.triggered.connect(lambda: print(y))
+        add_data = menu.addAction("Add New Data")
+        add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+        add_data.triggered.connect(lambda: varModel.insertRows())
+        if varTableView.selectedIndexes():
+            remove_data = menu.addAction("Remove Data")
+            remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
+            remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
+        cursor = QtGui.QCursor()
+        menu.exec_(cursor.pos())
+        return invoice
+        
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([]) 

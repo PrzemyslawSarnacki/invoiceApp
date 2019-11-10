@@ -118,6 +118,19 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         return True
     
     
+    def setClientForInvoice(self, position):
+        row_count = self.rowCount()
+        row_count -= 1
+        self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
+        row_id = position.row()
+        document_id = self.user_data[row_id]['_id']
+        clientName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA_I"])
+        clientAddress = str(operationsMongo.Database(self.collection).getSingleData(document_id)["MIEJSC"]) + str(operationsMongo.Database(self.collection).getSingleData(document_id)["ADRES"])
+        clientContact = (operationsMongo.Database(self.collection).getSingleData(document_id)["TELEFONY"])
+        print(clientName, clientAddress, clientContact) 
+        return clientName
+    
+    
     def addRowsToInvoice(self, position, invoice):
         row_count = self.rowCount()
         row_count -= 1
