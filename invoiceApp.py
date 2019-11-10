@@ -5,7 +5,6 @@ import generateInvoice
 import customModel
 import icons_rc
 
-# invoice = generateInvoice.setClient('Adfasd', 'efFdsf', 'AFAAF', '')
 
 class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
@@ -51,8 +50,8 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         x = lambda : (varModel.setClientForInvoice(varTableView.currentIndex()))
         set_client_for_invoice.triggered.connect(x)
-        y = x()
-        PythonMongoDB.invoice = generateInvoice.setClient(y, 'clientAddress', 'clientContact', '')
+        clientName, clientAddress, clientContact = x()
+        PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
         debug = menu.addAction("Debug")
         debug.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         debug.triggered.connect(lambda: print(y))

@@ -1,5 +1,5 @@
 import generateInvoice
 
-x = 42
-f = (lambda x : (x, x+1, x+2))
-print(f(x))
+x = ('fss','fd','fzs')
+y,z,w = x
+print(w)
