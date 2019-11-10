@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 import operationsMongo
-
+import generateInvoice
 
 class CustomTableModel(QtCore.QAbstractTableModel):
     def __init__(self, data, collectionName):
@@ -115,6 +115,24 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         operationsMongo.Database(self.collection).removeData(document_id)
         self.user_data.pop(row_id)
         self.endRemoveRows()
+        return True
+    
+    
+    def addRowsToInvoice(self, position, invoice):
+        row_count = self.rowCount()
+        row_count -= 1
+        self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
+        row_id = position.row()
+        document_id = self.user_data[row_id]['_id']
+        print(operationsMongo.Database(self.collection).getSingleData(document_id))
+        print(operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
+        print(operationsMongo.Database(self.collection).getSingleData(document_id)["ILOSC"])
+        print(operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
+        operationsMongo.Database(self.collection).subtractDataFromWarehouse(document_id, invoice,1)
+        
+
+        # self.user_data.pop(row_id)
+        # self.endRemoveRows()
         return True
 
 

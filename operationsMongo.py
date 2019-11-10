@@ -1,6 +1,7 @@
 import pymongo
 import re
 from bson import ObjectId
+import generateInvoice
 
 # collectionName = "ASOR"
 
@@ -51,6 +52,25 @@ class Database:
     def removeData(self, document_id):
         document = self.collection.delete_one({'_id': ObjectId(document_id)})
         return document.acknowledged
+
+
+    def subtractDataFromWarehouse(self, document_id, invoice, amountOfStuff=1):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        # print(document)
+        itemName = document["NAZWA"]
+        itemPrice = document["KOSZT"]
+        ILOSC = float(document['ILOSC'])
+        ILOSC -= amountOfStuff
+        print(ILOSC)
+        document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
+        # document = self.collection.find_one({'_id': ObjectId(document_id)})
+        print(document)
+
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
+        generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        # generateInvoice.createInvoice(invoice)
+        return document.acknowledged
+
 
     # search_this = "Aceton"
     # dbprice, dbname = searchForItem(search_this)
