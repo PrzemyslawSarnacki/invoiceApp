@@ -52,8 +52,10 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.tableView_2, 0, 1, 1, 1)
         self.gridLayout_3.addWidget(self.frame, 1, 0, 1, 1)
         self.tableView_3 = QtWidgets.QTableView(self.centralwidget)
+        self.generateInvoiceButton = QtWidgets.QPushButton("Generate Invoice") 
         self.tableView_3.setObjectName("tableView_3")
         self.gridLayout_3.addWidget(self.tableView_3, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.generateInvoiceButton)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
@@ -76,6 +78,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
         self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.menuAbout.setTitle(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
         self.actionAbout_Application.setText(QtWidgets.QApplication.translate("MainWindow", "About Application", None, -1))
 

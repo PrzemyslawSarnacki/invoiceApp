@@ -51,6 +51,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([]) 
+    app.setStyle("Fusion")
     my_app = PythonMongoDB()
     my_app.show()
     app.exec_()
