@@ -76,9 +76,13 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
             self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
             self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
             self.tableView_3.setModel(self.model_3)
-        add_to_invoice = menu.addAction("Add This To Invoice")
-        add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        add_to_invoice.triggered.connect(lambda: varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice))
+        if PythonMongoDB.invoice != None:
+            add_to_invoice = menu.addAction("Add This To Invoice")
+            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_to_invoice.triggered.connect(lambda: varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice))
+        else:
+            QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Wybierz Klienta!")
         add_data = menu.addAction("Add New Data")
         add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         add_data.triggered.connect(lambda: varModel.insertRows())
