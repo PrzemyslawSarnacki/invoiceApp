@@ -54,6 +54,11 @@ class Database:
         return document.acknowledged
 
 
+    def removeMultipleData(self):
+        document = self.collection.delete_many({})
+        return document.acknowledged
+
+
     def subtractDataFromWarehouse(self, document_id, invoice, amountOfStuff=1):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
@@ -70,6 +75,17 @@ class Database:
         generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         # generateInvoice.createInvoice(invoice)
         return document.acknowledged
+    
+    def addDataToInvoiceList(self, document_id, invoice, amountOfStuff=1):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        # print(document)
+        itemName = document["NAZWA"]
+        itemPrice = document["KOSZT"]
+        ILOSC = float(document['ILOSC'])
+        ILOSC -= amountOfStuff
+        myclient = pymongo.MongoClient('mongodb://localhost:27017')
+        myclient.mongotest.TEMPSP.insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        return True
 
 
     # search_this = "Aceton"
@@ -79,3 +95,6 @@ class Database:
 
 # p1 = Database(collectionName)
 # print(p1.getMultipleData())
+Database("TEMPSP").removeMultipleData()
+Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK":"KANAPA FINKA","NUMER":'null',"CENA":549.18,"ILOSC":1.0,"WARTOSC":549.18,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+

@@ -142,10 +142,13 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         print(operationsMongo.Database(self.collection).getSingleData(document_id)["ILOSC"])
         print(operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
         operationsMongo.Database(self.collection).subtractDataFromWarehouse(document_id, invoice,1)
-        
+        # operationsMongo.Database(self.collection).addDataToInvoiceList(document_id, invoice,1)
+        itemName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
+        itemPrice = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
+        amountOfStuff = 1
+        operationsMongo.Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        # operationsMongo.Database("TEMPSP").getMultipleData()
 
-        # self.user_data.pop(row_id)
-        # self.endRemoveRows()
         return True
 
 
