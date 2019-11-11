@@ -46,6 +46,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice))
+        self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView))
 
     def context_menu_client(self, varModel , varTableView):
         menu = QtWidgets.QMenu()
@@ -75,6 +76,16 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         if ok:
             QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
             varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
+    
+    def searchItemByName(self, varModel, varTableView):
+        searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
+        print(searchPhrase)
+        if ok:
+            QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
+            # varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
+            self.user_data = operationsMongo.Database("ASOR").searchForItem((searchPhrase), "ASOR")
+            self.model = customModel.CustomTableModel(self.user_data, "ASOR")
+            self.tableView.setModel(self.model)
 
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()

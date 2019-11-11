@@ -18,10 +18,11 @@ class Database:
 # collection.create_index([('NAZWA', 'text')])
 
     def searchForItem(self, search_this, collection):
-        self.collection.find({"$text": {"$search": search_this}})
-        for item in collection.find({"$text": {"$search": search_this}}).limit(1): 
-            print(item)
-            return(item.get("KOSZT")), (item.get("NAZWA"))
+        data = self.collection.find({"$text": {"$search": search_this}})
+        return list(data)
+        # for item in collection.find({"$text": {"$search": search_this}}).limit(10): 
+        #     print(item)
+        #     return(item.get("KOSZT")), (item.get("NAZWA"))
 
 
     def update_or_create(self, document_id, data):
