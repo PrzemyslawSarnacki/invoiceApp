@@ -73,10 +73,15 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
 
 
     def getAmountOfStuff(self, varModel, varTableView):
-        amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
-        if ok:
-            QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
-            varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
+        if PythonMongoDB.invoice != None:
+            amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
+            if ok:
+                QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
+                varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
+        else:
+            QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Wybierz Klienta!")
+        
     
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
@@ -94,13 +99,9 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
             self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
             self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
             self.tableView_3.setModel(self.model_3)
-        if PythonMongoDB.invoice != None:
-            add_to_invoice = menu.addAction("Add This To Invoice")
-            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-            add_to_invoice.triggered.connect(lambda: self.getAmountOfStuff(varModel, varTableView))
-        else:
-            QtWidgets.QMessageBox.critical(
-                        self, "Błąd", "Wybierz Klienta!")
+        add_to_invoice = menu.addAction("Add This To Invoice")
+        add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+        add_to_invoice.triggered.connect(lambda: self.getAmountOfStuff(varModel, varTableView))
         add_data = menu.addAction("Add New Data")
         add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         add_data.triggered.connect(lambda: varModel.insertRows())

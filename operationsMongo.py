@@ -33,6 +33,11 @@ class Database:
     def getSingleData(self, document_id):
         data = self.collection.find_one({'_id': ObjectId(document_id)})
         return data
+    
+    
+    def getSingleLastData(self):
+        data = self.collection.find_one(sort=[('NR_KOD', pymongo.DESCENDING)])
+        return data
 
 
     def getMultipleData(self):
@@ -98,6 +103,7 @@ class Database:
 # print(p1.getMultipleData())
 Database("TEMPSP").removeMultipleData()
 Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK":"KANAPA FINKA","NUMER":'null',"CENA":549.18,"ILOSC":1.0,"WARTOSC":549.18,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+print(Database("SPZAW").getSingleLastData())
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
 # myclient.mongotest.ASOR.create_index([('KOD', 'text')])
