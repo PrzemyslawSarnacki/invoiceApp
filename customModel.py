@@ -131,7 +131,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         return clientName, clientAddress, clientContact
     
     
-    def addRowsToInvoice(self, position, invoice):
+    def addRowsToInvoice(self, position, invoice, amountOfStuff):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
@@ -145,7 +145,6 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         # operationsMongo.Database(self.collection).addDataToInvoiceList(document_id, invoice,1)
         itemName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
         itemPrice = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
-        amountOfStuff = 1
         operationsMongo.Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
         # operationsMongo.Database("TEMPSP").getMultipleData()
 

@@ -79,7 +79,11 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         if PythonMongoDB.invoice != None:
             add_to_invoice = menu.addAction("Add This To Invoice")
             add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-            add_to_invoice.triggered.connect(lambda: varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice))
+            amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
+            if ok:
+                QtWidgets.QMessageBox.information(
+                        self, "Ok", "Ok!")
+            add_to_invoice.triggered.connect(lambda: varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff))
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
