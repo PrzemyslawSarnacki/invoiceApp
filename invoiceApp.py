@@ -46,7 +46,8 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice))
-        self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView))
+        self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
+        self.searchForClientButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
 
     def context_menu_client(self, varModel , varTableView):
         menu = QtWidgets.QMenu()
@@ -77,15 +78,15 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
             varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
     
-    def searchItemByName(self, varModel, varTableView):
+    def searchItemByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
         print(searchPhrase)
         if ok:
-            QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
+            # QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
             # varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
-            self.user_data = operationsMongo.Database("ASOR").searchForItem((searchPhrase), "ASOR")
-            self.model = customModel.CustomTableModel(self.user_data, "ASOR")
-            self.tableView.setModel(self.model)
+            varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
+            varModel = customModel.CustomTableModel(varUserData, collectionName)
+            varTableView.setModel(varModel)
 
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
