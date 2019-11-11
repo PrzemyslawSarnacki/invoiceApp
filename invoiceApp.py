@@ -47,7 +47,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice))
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
-        self.searchForClientButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
+        self.searchForClientButton.clicked.connect(lambda : self.searchItemByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
 
     def context_menu_client(self, varModel , varTableView):
         menu = QtWidgets.QMenu()
@@ -80,7 +80,6 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
-        print(searchPhrase)
         if ok:
             # QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
             # varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)

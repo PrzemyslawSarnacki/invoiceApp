@@ -99,3 +99,7 @@ class Database:
 Database("TEMPSP").removeMultipleData()
 Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK":"KANAPA FINKA","NUMER":'null',"CENA":549.18,"ILOSC":1.0,"WARTOSC":549.18,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
 
+# myclient = pymongo.MongoClient('mongodb://localhost:27017')
+# myclient.mongotest.ASOR.create_index([('KOD', 'text')])
+# Database("KONTRAH").create_index([('NAZWA_I', 'text')])
+
