@@ -23,7 +23,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView.setItemDelegate(self.delegate)
         # self.tableView.setItemDelegateForColumn(1, customModel.ProfilePictureDelegate())
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.tableView.customContextMenuRequested.connect(lambda: self.context_menu(self.model, self.tableView, self.user_data))
+        self.tableView.customContextMenuRequested.connect(lambda: self.context_menu(self.model, self.tableView))
         self.tableView.verticalHeader().setDefaultSectionSize(50)
         self.tableView.setColumnWidth(0, 30)
         self.tableView.hideColumn(0)
@@ -44,7 +44,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.setModel(self.model_3)
         self.tableView_3.setItemDelegate(self.delegate)
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3, self.user_data_3))
+        self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice))
 
     def context_menu_client(self, varModel , varTableView):
@@ -69,7 +69,14 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         menu.exec_(cursor.pos())
         return PythonMongoDB.invoice
 
-    def context_menu(self, varModel, varTableView, varUserData):
+
+    def getAmountOfStuff(self, varModel, varTableView):
+        amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
+        if ok:
+            QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
+            varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
+
+    def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
         refresh_data = menu.addAction("Refresh Data")
         if refresh_data.triggered.connect(lambda: self):
@@ -79,11 +86,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         if PythonMongoDB.invoice != None:
             add_to_invoice = menu.addAction("Add This To Invoice")
             add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-            amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
-            if ok:
-                QtWidgets.QMessageBox.information(
-                        self, "Ok", "Ok!")
-            add_to_invoice.triggered.connect(lambda: varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff))
+            add_to_invoice.triggered.connect(lambda: self.getAmountOfStuff(varModel, varTableView))
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
