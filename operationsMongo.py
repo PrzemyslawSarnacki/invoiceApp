@@ -78,9 +78,9 @@ class Database:
         print(document)
 
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
-        generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        itemAndCountMultiplied = generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         # generateInvoice.createInvoice(invoice)
-        return document.acknowledged
+        return document.acknowledged, itemAndCountMultiplied
     
     def addDataToInvoiceList(self, document_id, invoice, amountOfStuff=1):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
@@ -102,8 +102,8 @@ class Database:
 # p1 = Database(collectionName)
 # print(p1.getMultipleData())
 Database("TEMPSP").removeMultipleData()
-Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK":"KANAPA FINKA","NUMER":'null',"CENA":549.18,"ILOSC":1.0,"WARTOSC":549.18,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
-print(Database("SPZAW").getSingleLastData())
+Database("TEMPSP").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":''})
+print(Database("SP").getSingleLastData()['NR_KOD'])
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
 # myclient.mongotest.ASOR.create_index([('KOD', 'text')])

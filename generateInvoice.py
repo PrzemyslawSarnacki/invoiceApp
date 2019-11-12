@@ -1,5 +1,6 @@
 import os
 import datetime
+import operationsMongo
 
 from tempfile import NamedTemporaryFile
 
@@ -13,6 +14,7 @@ os.environ["INVOICE_LANG"] = "pl"
 provider = Provider('AS Lomza', 'Niewodowo 50', "18-421 Piątnica", bank_account='2600420569', bank_code='2010')
 creator = Creator('')
 
+
 def setClient(clientName, clientAddress, clientPostCode, clientAdditionalData):
     client = Client(clientName, clientAddress, clientPostCode, clientAdditionalData)
     invoice = Invoice(client, provider, creator, number=datetime.datetime.now().strftime("%d-%m-%y"))
@@ -22,9 +24,14 @@ def setClient(clientName, clientAddress, clientPostCode, clientAdditionalData):
 
 def addItemToInvoice(invoice, dbItemCount, dbItemName, dbItemPrice):
     invoice.add_item(Item(dbItemCount, dbItemPrice, description=dbItemName, tax=23))
+    return dbItemCount*dbItemPrice
 
-def createInvoice(invoice):
+def createInvoice(invoice, totalAmount):
     pdf = SimpleInvoice(invoice)
     currentDate = datetime.datetime.now().strftime("%H.%M %d-%m-%y")
+    currentDateDbFormat = datetime.datetime.now().strftime("%d.%m.%Y")
     pdf.gen("faktura " + str(currentDate) + ".pdf", generate_qr_code=True)
-
+    invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
+    print(invoice.client.summary)
+    operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":"H","DATA":currentDateDbFormat,"NUMER":89,"MAGAZYN":1,"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":0.0,"RODZ_PL":"G","UWAGI_PL":'',"DATA_PL":'',"R_CEN":"H","MAGA":"PRAWDA","PODAT_WR":210.98,"DATA_SPRZ":currentDateDbFormat,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":478.0,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'null',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
+    

@@ -137,17 +137,18 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        operationsMongo.Database(self.collection).subtractDataFromWarehouse(document_id, invoice, amountOfStuff)
+        ok, itemAndCountMultiplied = operationsMongo.Database(self.collection).subtractDataFromWarehouse(document_id, invoice, amountOfStuff)
         # operationsMongo.Database(self.collection).addDataToInvoiceList(document_id, invoice,1)
         itemName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
         itemPrice = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
         itemCode = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOD"])
-        # invoiceCode = Database("SPZAW").getSingleLastData()  
-        operationsMongo.Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
-        operationsMongo.Database("SPZAW").insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
+        print(invoiceCode)
+        operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        operationsMongo.Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
         # operationsMongo.Database("TEMPSP").getMultipleData()
 
-        return True
+        return itemAndCountMultiplied
 
 
 class ProfilePictureDelegate(QtWidgets.QStyledItemDelegate):

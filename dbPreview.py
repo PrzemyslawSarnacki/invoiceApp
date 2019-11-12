@@ -8,16 +8,15 @@ import icons_rc
 
 class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
-    totalAmount = 0
 
     def __init__(self):
         super(PythonMongoDB, self).__init__()
         self.setupUi(self)
         # self.invoice = invoice
-        self.user_data = operationsMongo.Database("ASOR").getMultipleData()
-        self.user_data_2 = operationsMongo.Database("KONTRAH").getMultipleData()
-        self.model = customModel.CustomTableModel(self.user_data, "ASOR")
-        self.model_2 = customModel.CustomTableModel(self.user_data_2, "KONTRAH")
+        self.user_data = operationsMongo.Database("SPZAW").getMultipleData()
+        self.user_data_2 = operationsMongo.Database("SP").getMultipleData()
+        self.model = customModel.CustomTableModel(self.user_data, "SPZAW")
+        self.model_2 = customModel.CustomTableModel(self.user_data_2, "SP")
        
         self.delegate = customModel.InLineEditDelegate()
         self.tableView.setModel(self.model)
@@ -27,14 +26,6 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView.customContextMenuRequested.connect(lambda: self.context_menu(self.model, self.tableView))
         self.tableView.verticalHeader().setDefaultSectionSize(50)
         self.tableView.setColumnWidth(0, 30)
-        self.tableView.hideColumn(0)
-        self.tableView.hideColumn(2)
-        self.tableView.hideColumn(3)
-        self.tableView.hideColumn(4)
-        self.tableView.hideColumn(14)
-        self.tableView.hideColumn(15)
-        self.tableView.hideColumn(16)
-        # self.tableView.hideColumn(7)
         self.tableView_2.setModel(self.model_2)
         self.tableView_2.setItemDelegate(self.delegate)
         self.tableView_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -46,7 +37,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.setItemDelegate(self.delegate)
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
-        self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice, PythonMongoDB.totalAmount))
+        self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice))
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
         self.searchForClientButton.clicked.connect(lambda : self.searchItemByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
 
@@ -78,8 +69,7 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
             amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
             if ok:
                 QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
-                itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
-                PythonMongoDB.totalAmount += itemAndCountMultiplied
+                varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
@@ -88,6 +78,8 @@ class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
         if ok:
+            # QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
+            # varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
             varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
             varModel = customModel.CustomTableModel(varUserData, collectionName)
             varTableView.setModel(varModel)
