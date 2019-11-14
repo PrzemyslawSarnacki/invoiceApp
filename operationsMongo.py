@@ -102,7 +102,11 @@ class Database:
 # p1 = Database(collectionName)
 # print(p1.getMultipleData())
 Database("TEMPSP").removeMultipleData()
-Database("TEMPSP").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":''})
+# Database("TEMPSP").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":''})
+Database("TEMPSP").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":'',"PREVID":''})
+Database("TEMPKU").removeMultipleData()
+Database("TEMPKU").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","PODAT":'',"KONTO_KU":'',"UPUST":'',"JEST_VAT":""})
+
 # print(Database("SP").getSingleLastData()['NR_KOD'])
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')

@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
+from bson import ObjectId
 import operationsMongo
 import generateInvoice
 
@@ -144,9 +145,12 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         itemCode = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOD"])
         invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
         print(invoiceCode)
-        operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
+        print(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])
+        print('Zycie')
+        print(operationsMongo.Database("TEMPSP").getMultipleData())
+        print(operationsMongo.Database(self.collection).getSingleData(ObjectId(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])))
         operationsMongo.Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
-        # operationsMongo.Database("TEMPSP").getMultipleData()
 
         return itemAndCountMultiplied
 
