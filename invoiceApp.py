@@ -82,6 +82,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
                 QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
                 itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
                 PythonMongoDB.totalAmount += itemAndCountMultiplied
+                self.totalAmountResultLabel.setText(str(PythonMongoDB.totalAmount))
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
