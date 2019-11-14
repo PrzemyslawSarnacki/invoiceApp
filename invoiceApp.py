@@ -90,10 +90,14 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
     
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
-        if ok:
-            varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
-            varModel = customModel.CustomTableModel(varUserData, collectionName)
-            varTableView.setModel(varModel)
+        try:
+            if ok:
+                varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
+                varModel = customModel.CustomTableModel(varUserData, collectionName)
+                varTableView.setModel(varModel)
+        except IndexError:
+             QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Brak takiej pozycji!")
 
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()

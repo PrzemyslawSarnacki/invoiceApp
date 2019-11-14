@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Python MongoDB Application</string>
+   <string>Invoice App </string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
@@ -19,90 +19,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
-    <item row="1" column="0">
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="0">
-        <widget class="QPushButton" name="searchForItemButton">
-         <property name="text">
-          <string>Search For Item</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="searchForClientButton">
-         <property name="text">
-          <string>Search For Client</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QTableView" name="tableView_2"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="clientLabel">
-         <property name="text">
-          <string>Client:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QTableView" name="tableView">
-         <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="sortingEnabled">
-          <bool>true</bool>
-         </property>
-         <attribute name="horizontalHeaderCascadingSectionResizes">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="verticalHeaderCascadingSectionResizes">
-          <bool>false</bool>
-         </attribute>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="clientResultLabel">
-         <property name="text">
-          <string>Not selected yet</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QTableView" name="tableView_3"/>
-    </item>
     <item row="5" column="0">
-     <widget class="QPushButton" name="generateInvoiceButton">
+     <widget class="QLabel" name="totalAmountResultLabel">
       <property name="text">
-       <string>Generate Invoice</string>
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
@@ -152,7 +75,14 @@
       </layout>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="6" column="0">
+     <widget class="QPushButton" name="generateInvoiceButton">
+      <property name="text">
+       <string>Generate Invoice</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
      <widget class="QLabel" name="totalAmountLabel">
       <property name="text">
        <string>Total Amount:</string>
@@ -162,13 +92,114 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="totalAmountResultLabel">
-      <property name="text">
-       <string>0</string>
+    <item row="1" column="0">
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="4" column="0">
+        <widget class="QComboBox" name="paymentComboBox">
+         <item>
+          <property name="text">
+           <string>Przelew</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Gotówka</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="searchForClientButton">
+         <property name="text">
+          <string>Search For Client</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="searchForItemButton">
+         <property name="text">
+          <string>Search For Item</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="clientLabel">
+         <property name="text">
+          <string>Client:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QTableView" name="tableView">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="clientResultLabel">
+         <property name="text">
+          <string>Not selected yet</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="paymentLabel">
+         <property name="text">
+          <string>Płatność:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QTableView" name="tableView_2"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QTableView" name="tableView_3"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QFrame" name="frame_3">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
      </widget>
     </item>
