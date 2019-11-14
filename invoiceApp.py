@@ -54,10 +54,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         menu = QtWidgets.QMenu()
         set_client_for_invoice = menu.addAction("Choose this Client")
         set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        x = lambda : (varModel.setClientForInvoice(varTableView.currentIndex()))
-        set_client_for_invoice.triggered.connect(x)
-        clientName, clientAddress, clientContact = x()
-        PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
+        set_client_for_invoice.triggered.connect(lambda : self.setClient(varModel, varTableView))
         # debug = menu.addAction("Debug")
         # debug.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         # debug.triggered.connect(lambda: print(y))
@@ -72,6 +69,10 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         menu.exec_(cursor.pos())
         return PythonMongoDB.invoice
 
+    def setClient(self, varModel, varTableView):
+        clientName, clientAddress, clientContact = varModel.setClientForInvoice(varTableView.currentIndex())
+        PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
+        self.clientResultLabel.setText(clientName)
 
     def getAmountOfStuff(self, varModel, varTableView):
         if PythonMongoDB.invoice != None:

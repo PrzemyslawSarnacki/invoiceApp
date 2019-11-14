@@ -14,7 +14,7 @@
    <string>Python MongoDB Application</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="invoiceApp/view/icons.qrc">
+   <iconset resource="icons.qrc">
     <normaloff>:/icons/images/app.png</normaloff>:/icons/images/app.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -40,7 +40,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="invoiceApp/view/icons.qrc">:/icons/images/app.png</pixmap>
+          <pixmap resource="icons.qrc">:/icons/images/app.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -95,7 +95,7 @@
         <widget class="QTableView" name="tableView_2"/>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="clientLabel">
          <property name="text">
           <string>Client</string>
          </property>
@@ -133,7 +133,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="clientResultLabel">
          <property name="text">
           <string>TextLabel</string>
          </property>
@@ -174,7 +174,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbout_Application">
    <property name="icon">
-    <iconset resource="invoiceApp/view/icons.qrc">
+    <iconset resource="icons.qrc">
      <normaloff>:/icons/images/app.png</normaloff>:/icons/images/app.png</iconset>
    </property>
    <property name="text">
@@ -183,8 +183,9 @@
   </action>
  </widget>
  <resources>
-  <include location="invoiceApp/view/icons.qrc"/>
   <include location="icons.qrc"/>
+  <include location="icons.qrc"/>
+  <include location="invoiceApp/view/icons.qrc"/>
  </resources>
  <connections/>
 </ui>
