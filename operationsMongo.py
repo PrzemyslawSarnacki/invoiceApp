@@ -103,7 +103,7 @@ class Database:
 # print(p1.getMultipleData())
 Database("TEMPSP").removeMultipleData()
 Database("TEMPSP").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":''})
-print(Database("SP").getSingleLastData()['NR_KOD'])
+# print(Database("SP").getSingleLastData()['NR_KOD'])
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
 # myclient.mongotest.ASOR.create_index([('KOD', 'text')])
