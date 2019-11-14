@@ -44,6 +44,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
         self.tableView_3.setModel(self.model_3)
         self.tableView_3.setItemDelegate(self.delegate)
+        self.tableView_3.hideRow(0)
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
         self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice, PythonMongoDB.totalAmount))
