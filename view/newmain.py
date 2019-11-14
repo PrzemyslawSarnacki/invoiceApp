@@ -1,4 +1,14 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'newmain.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -8,8 +18,6 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap(":/icons/images/app.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.searchForItemButton = QtWidgets.QPushButton("Search For Item") 
-        self.searchForClientButton = QtWidgets.QPushButton("Search For Client") 
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -30,15 +38,32 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.label_2.setFont(font)
+        self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 0, 1, 1, 1)
         self.gridLayout_3.addWidget(self.frame_2, 0, 0, 1, 1)
+        self.tableView_3 = QtWidgets.QTableView(self.centralwidget)
+        self.tableView_3.setObjectName("tableView_3")
+        self.gridLayout_3.addWidget(self.tableView_3, 2, 0, 1, 1)
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        self.searchForItemButton = QtWidgets.QPushButton(self.frame)
+        self.searchForItemButton.setObjectName("searchForItemButton")
+        self.gridLayout_2.addWidget(self.searchForItemButton, 1, 0, 1, 1)
+        self.searchForClientButton = QtWidgets.QPushButton(self.frame)
+        self.searchForClientButton.setObjectName("searchForClientButton")
+        self.gridLayout_2.addWidget(self.searchForClientButton, 1, 1, 1, 1)
+        self.tableView_2 = QtWidgets.QTableView(self.frame)
+        self.tableView_2.setObjectName("tableView_2")
+        self.gridLayout_2.addWidget(self.tableView_2, 0, 1, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.frame)
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_2.addWidget(self.label_3, 2, 1, 1, 1)
         self.tableView = QtWidgets.QTableView(self.frame)
         self.tableView.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -49,19 +74,14 @@ class Ui_MainWindow(object):
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.tableView.verticalHeader().setCascadingSectionResizes(False)
         self.gridLayout_2.addWidget(self.tableView, 0, 0, 1, 1)
-        self.tableView_2 = QtWidgets.QTableView(self.frame)
-        self.tableView_2.setObjectName("tableView_2")
-        self.gridLayout_2.addWidget(self.searchForItemButton, 1, 0, 1, 1)
-        self.gridLayout_2.addWidget(self.searchForClientButton, 1, 1, 1, 1)
-        self.gridLayout_2.addWidget(self.tableView_2, 0, 1, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.frame)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_2.addWidget(self.label_4, 3, 1, 1, 1)
         self.gridLayout_3.addWidget(self.frame, 1, 0, 1, 1)
-        self.tableView_3 = QtWidgets.QTableView(self.centralwidget)
-        self.generateInvoiceButton = QtWidgets.QPushButton("Generate Invoice") 
-        self.tableView_3.setObjectName("tableView_3")
-        self.gridLayout_3.addWidget(self.tableView_3, 2, 0, 1, 1)
-        self.clientLabel = QtWidgets.QLabel(self.frame_2)
-
-        self.gridLayout_3.addWidget(self.generateInvoiceButton)
+        self.generateInvoiceButton = QtWidgets.QPushButton(self.centralwidget)
+        self.generateInvoiceButton.setObjectName("generateInvoiceButton")
+        self.gridLayout_3.addWidget(self.generateInvoiceButton, 3, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
@@ -82,10 +102,14 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
-        self.label_2.setText(QtWidgets.QApplication.translate("MainWindow", "InvoiceApp", None, -1))
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.menuAbout.setTitle(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
-        self.actionAbout_Application.setText(QtWidgets.QApplication.translate("MainWindow", "About Application", None, -1))
-
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Python MongoDB Application"))
+        self.label_2.setText(_translate("MainWindow", "Invoice App"))
+        self.searchForItemButton.setText(_translate("MainWindow", "Search For Item"))
+        self.searchForClientButton.setText(_translate("MainWindow", "Search For Client"))
+        self.label_3.setText(_translate("MainWindow", "Client"))
+        self.label_4.setText(_translate("MainWindow", "TextLabel"))
+        self.generateInvoiceButton.setText(_translate("MainWindow", "Generate Invoice"))
+        self.menuAbout.setTitle(_translate("MainWindow", "About"))
+        self.actionAbout_Application.setText(_translate("MainWindow", "About Application"))
 import icons_rc

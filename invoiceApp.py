@@ -1,12 +1,12 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from view import main
+from view import newmain
 import operationsMongo
 import generateInvoice
 import customModel
 import icons_rc
 
 
-class PythonMongoDB(main.Ui_MainWindow, QtWidgets.QMainWindow):
+class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
     totalAmount = 0
 
