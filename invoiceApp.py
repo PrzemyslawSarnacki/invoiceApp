@@ -48,7 +48,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.hideColumn(0)
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
-        self.generateInvoiceButton.clicked.connect(lambda : generateInvoice.createInvoice(PythonMongoDB.invoice, PythonMongoDB.totalAmount))
+        self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
         self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
 
@@ -75,6 +75,22 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         clientName, clientAddress, clientContact = varModel.setClientForInvoice(varTableView.currentIndex())
         PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
         self.clientResultLabel.setText(clientName)
+   
+    def generateInvoiceFinalAction(self):
+        print("Aciotn taken")
+        totalAmount = 0
+        finalInvoiceList = operationsMongo.Database("TEMPSP").getMultipleData()
+        for invoiceFinalItem in finalInvoiceList[1:]:
+            # itemName = (invoiceFinalItem)["NAZWA"]
+            # itemPrice = (invoiceFinalItem)["KOSZT"]
+            # itemCode = (invoiceFinalItem)["KOD"]
+            amountOfStuff = float((invoiceFinalItem)["ILOSC"])
+            document_id = (invoiceFinalItem)["PREVID"]
+            ok, itemAndCountMultiplied = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, amountOfStuff)
+            totalAmount += itemAndCountMultiplied
+        # if ok:
+        generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount)
+        QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
 
     def getAmountOfStuff(self, varModel, varTableView):
         if PythonMongoDB.invoice != None:

@@ -76,9 +76,8 @@ class Database:
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         # document = self.collection.find_one({'_id': ObjectId(document_id)})
         print(document)
-
-        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
         itemAndCountMultiplied = generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
         # generateInvoice.createInvoice(invoice)
         return document.acknowledged, itemAndCountMultiplied
     

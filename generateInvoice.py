@@ -53,5 +53,6 @@ def createPurchaseInvoice(invoice, totalAmount):
     currentDateDbFormat = datetime.datetime.now().strftime("%d.%m.%Y")
     pdf.gen("faktura " + str(currentDate) + ".pdf", generate_qr_code=True)
     invoiceCode = operationsMongo.Database("KU").getSingleLastData()["NR_KOD"] + 1
+    invoiceCode = operationsMongo.Database("KU").getSingleLastData()["NR_KOD"] + 1
     print(invoice.client.summary)
     operationsMongo.Database("KU").insertData({"NR_KOD":invoiceCode,"TYP_FS":"H","DATA":currentDateDbFormat,"NUMER":89,"MAGAZYN":1,"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":0.0,"RODZ_PL":"G","UWAGI_PL":'',"DATA_PL":'',"R_CEN":"H","MAGA":"PRAWDA","PODAT_WR":210.98,"DATA_SPRZ":currentDateDbFormat,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":478.0,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'null',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
