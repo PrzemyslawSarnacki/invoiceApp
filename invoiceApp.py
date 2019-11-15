@@ -77,7 +77,6 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.clientResultLabel.setText(clientName)
    
     def generateInvoiceFinalAction(self):
-        print("Aciotn taken")
         totalAmount = 0
         finalInvoiceList = operationsMongo.Database("TEMPSP").getMultipleData()
         for invoiceFinalItem in finalInvoiceList[1:]:
@@ -88,9 +87,9 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
             document_id = (invoiceFinalItem)["PREVID"]
             ok, itemAndCountMultiplied = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, amountOfStuff)
             totalAmount += itemAndCountMultiplied
-        # if ok:
-        generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount)
-        QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
+        if ok:
+            generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount)
+            QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
 
     def getAmountOfStuff(self, varModel, varTableView):
         if PythonMongoDB.invoice != None:
