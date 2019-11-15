@@ -90,6 +90,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         if ok:
             generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount)
             QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
+            operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
 
     def getAmountOfStuff(self, varModel, varTableView):
         if PythonMongoDB.invoice != None:

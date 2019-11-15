@@ -92,7 +92,13 @@ class Database:
         myclient.mongotest.TEMPSP.insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
         return True
 
+    def clearTemporaryTableForInvoice(self):
+        Database("TEMPSP").removeMultipleData()
+        Database("TEMPSP").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":'',"PREVID":''})
 
+    def clearTemporaryTableForPurchaseInvoice(self):
+        Database("TEMPKU").removeMultipleData()
+        Database("TEMPKU").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","PODAT":'',"KONTO_KU":'',"UPUST":'',"JEST_VAT":""})
     # search_this = "Aceton"
     # dbprice, dbname = searchForItem(search_this)
     # print(dbname)
@@ -100,15 +106,13 @@ class Database:
 
 # p1 = Database(collectionName)
 # print(p1.getMultipleData())
-Database("TEMPSP").removeMultipleData()
 # Database("TEMPSP").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":''})
-Database("TEMPSP").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","JEST_VAT":"","PODAT":'',"UPUST":'',"PREVID":''})
-Database("TEMPKU").removeMultipleData()
-Database("TEMPKU").insertData({"NR_KOD":'',"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","PODAT":'',"KONTO_KU":'',"UPUST":'',"JEST_VAT":""})
+
 
 # print(Database("SP").getSingleLastData()['NR_KOD'])
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
 # myclient.mongotest.ASOR.create_index([('KOD', 'text')])
 # Database("KONTRAH").create_index([('NAZWA_I', 'text')])
-
+Database("TEMPSP").clearTemporaryTableForInvoice()
+Database("TEMPKU").clearTemporaryTableForPurchaseInvoice()
