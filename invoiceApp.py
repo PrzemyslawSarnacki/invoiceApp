@@ -51,8 +51,9 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR"))
         self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
-        self.sortItemsByNameButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
+        self.sortItemsByNameButton.clicked.connect(lambda : self.sortItemsByName(self.model, self.tableView, self.user_data, "ASOR"))
         self.sortClientsByNameButton.clicked.connect(lambda : self.sortClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
+        self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByNIP(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
 
     def context_menu_client(self, varModel , varTableView):
         menu = QtWidgets.QMenu()
@@ -122,6 +123,20 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
              QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Brak takiej pozycji!")
     
+    def searchClientByNIP(self, varModel, varTableView, varUserData, collectionName):
+        searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
+        try:
+            if ok:
+                # varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
+                # varModel = customModel.CustomTableModel(varUserData, collectionName)
+                # varTableView.setModel(varModel)
+                varUserData = operationsMongo.Database(collectionName).searchByNIP((searchPhrase), collectionName)
+                self.model_2 = customModel.CustomTableModel(varUserData, collectionName)
+                self.tableView_2.setModel(self.model_2)
+        except IndexError:
+             QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Brak takiej pozycji!")
+    
     
     def searchClientByName(self, varModel, varTableView, varUserData, collectionName):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
@@ -138,16 +153,14 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
                         self, "Błąd", "Brak takiej pozycji!")
     
     def sortClientByName(self, varModel, varTableView, varUserData, collectionName):
-        try:
-            # varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
-            # varModel = customModel.CustomTableModel(varUserData, collectionName)
-            # varTableView.setModel(varModel)
-            varUserData = operationsMongo.Database(collectionName).sortAlphabetically(collectionName)
-            self.model_2 = customModel.CustomTableModel(varUserData, collectionName)
-            self.tableView_2.setModel(self.model_2)
-        except IndexError:
-             QtWidgets.QMessageBox.critical(
-                        self, "Błąd", "Brak takiej pozycji!")
+        varUserData = operationsMongo.Database(collectionName).sortAlphabetically(collectionName, "NAZWA_I")
+        self.model_2 = customModel.CustomTableModel(varUserData, collectionName)
+        self.tableView_2.setModel(self.model_2)
+
+    def sortItemsByName(self, varModel, varTableView, varUserData, collectionName):
+        varUserData = operationsMongo.Database(collectionName).sortAlphabetically(collectionName, "NAZWA")
+        self.model = customModel.CustomTableModel(varUserData, collectionName)
+        self.tableView.setModel(self.model)
 
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()

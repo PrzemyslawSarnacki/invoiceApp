@@ -18,17 +18,18 @@ class Database:
 # collection.create_index([('NAZWA', 'text')])
 
     def searchForItem(self, search_this, collection):
-        data = self.collection.find({"$text": {"$search": search_this}})
+        # data = self.collection.find({"$text": {"$searcth": "/" + search_this + "/"}})
+        data = self.collection.find({"NAZWA_I": {"$regex":  search_this }})
         return list(data)
     
     
     def searchByNIP(self, search_this, collection):
-        data = self.collection.find({"$kod": {"$search": search_this}})
+        data = self.collection.find({"REJESTR":  {"$regex": search_this}})
         return list(data)
 
 
-    def sortAlphabetically(self, collection):
-        data = self.collection.find().sort("NAZWA_I", pymongo.ASCENDING)
+    def sortAlphabetically(self, collection, collumnToSort):
+        data = self.collection.find().sort(collumnToSort, pymongo.ASCENDING)
         return list(data)
         # for item in collection.find({"$text": {"$search": search_this}}).limit(10): 
         #     print(item)
@@ -123,6 +124,7 @@ class Database:
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
 # myclient.mongotest.KONTRAH.create_index([('KOD', 'kod')])
+# print(list(myclient.mongotest.KONTRAH.find({},{'REJESTR': '731'})))
 # Database("KONTRAH").create_index([('Rejestr', 'text')])
 Database("TEMPSP").clearTemporaryTableForInvoice()
 Database("TEMPKU").clearTemporaryTableForPurchaseInvoice()

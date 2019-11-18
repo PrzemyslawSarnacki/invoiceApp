@@ -102,7 +102,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="6">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="searchClientsByNIPButton">
          <property name="text">
           <string>Search by NIP</string>
          </property>
@@ -150,9 +150,9 @@
         </widget>
        </item>
        <item row="2" column="5">
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="searchClientsByCodeButton">
          <property name="text">
-          <string>PushButton</string>
+          <string>Search by Code</string>
          </property>
         </widget>
        </item>
