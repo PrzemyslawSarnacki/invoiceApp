@@ -17,9 +17,9 @@ class Database:
 # in collection(NAZWA in this case)
 # collection.create_index([('NAZWA', 'text')])
 
-    def searchForItem(self, search_this, collection):
+    def searchForItem(self, search_this, collection, searchedKey):
         # data = self.collection.find({"$text": {"$searcth": "/" + search_this + "/"}})
-        data = self.collection.find({"NAZWA_I": {"$regex":  search_this }})
+        data = self.collection.find({searchedKey: {"$regex":  search_this }})
         return list(data)
     
     
