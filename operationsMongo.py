@@ -20,6 +20,16 @@ class Database:
     def searchForItem(self, search_this, collection):
         data = self.collection.find({"$text": {"$search": search_this}})
         return list(data)
+    
+    
+    def searchByNIP(self, search_this, collection):
+        data = self.collection.find({"$kod": {"$search": search_this}})
+        return list(data)
+
+
+    def sortAlphabetically(self, collection):
+        data = self.collection.find().sort("NAZWA_I", pymongo.ASCENDING)
+        return list(data)
         # for item in collection.find({"$text": {"$search": search_this}}).limit(10): 
         #     print(item)
         #     return(item.get("KOSZT")), (item.get("NAZWA"))
@@ -75,7 +85,7 @@ class Database:
         print(ILOSC)
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         # document = self.collection.find_one({'_id': ObjectId(document_id)})
-        print(document)
+        # print(document)
         itemAndCountMultiplied = generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
         # generateInvoice.createInvoice(invoice)
@@ -112,7 +122,7 @@ class Database:
 # print(Database("SP").getSingleLastData()['NR_KOD'])
 
 # myclient = pymongo.MongoClient('mongodb://localhost:27017')
-# myclient.mongotest.ASOR.create_index([('KOD', 'text')])
-# Database("KONTRAH").create_index([('NAZWA_I', 'text')])
+# myclient.mongotest.KONTRAH.create_index([('KOD', 'kod')])
+# Database("KONTRAH").create_index([('Rejestr', 'text')])
 Database("TEMPSP").clearTemporaryTableForInvoice()
 Database("TEMPKU").clearTemporaryTableForPurchaseInvoice()

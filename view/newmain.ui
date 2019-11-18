@@ -101,24 +101,62 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="7" column="1">
-        <widget class="QTableView" name="tableView_3"/>
+       <item row="2" column="6">
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>Search by NIP</string>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="3">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="7">
+        <widget class="QLabel" name="clientResultLabel">
+         <property name="text">
+          <string>Not selected yet</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="sortClientsByNameButton">
+         <property name="text">
+          <string>Sort by name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4" colspan="4">
+        <widget class="QTableView" name="tableView_2"/>
+       </item>
+       <item row="2" column="7">
         <widget class="QPushButton" name="searchForClientButton">
          <property name="text">
           <string>Search For Client</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="searchForItemButton">
+       <item row="2" column="2">
+        <widget class="QPushButton" name="sortItemsByNameButton">
          <property name="text">
-          <string>Search For Item</string>
+          <string>Sort by Name</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="5">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="7">
         <widget class="QLabel" name="clientLabel">
          <property name="text">
           <string>Client:</string>
@@ -128,7 +166,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="4">
         <widget class="QTableView" name="tableView">
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
@@ -156,20 +194,14 @@
          </attribute>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="clientResultLabel">
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButton_4">
          <property name="text">
-          <string>Not selected yet</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          <string>Search by Letter</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QTableView" name="tableView_2"/>
-       </item>
-       <item row="3" column="0" rowspan="5">
+       <item row="6" column="0" rowspan="5">
         <widget class="QFrame" name="frame_4">
          <widget class="QComboBox" name="paymentComboBox">
           <property name="geometry">
@@ -304,6 +336,16 @@
           </property>
          </widget>
         </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="searchForItemButton">
+         <property name="text">
+          <string>Search by Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2" colspan="6">
+        <widget class="QTableView" name="tableView_3"/>
        </item>
       </layout>
      </widget>
