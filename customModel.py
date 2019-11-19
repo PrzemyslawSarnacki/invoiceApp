@@ -131,6 +131,15 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         print(clientName, clientAddress, clientContact) 
         return clientName, clientAddress, clientContact
     
+    def showInvoice(self, position):
+        row_count = self.rowCount()
+        row_count -= 1
+        self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
+        row_id = position.row()
+        document_id = self.user_data[row_id]['NR_KOD']
+        data = operationsMongo.Database("SPZAW").searchByNumer(document_id, "SPZAW", "NR_KOD")
+        return list(data)
+    
     
     def addRowsToInvoice(self, position, invoice, amountOfStuff):
         row_count = self.rowCount()

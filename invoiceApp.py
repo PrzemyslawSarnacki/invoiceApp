@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from view import newmain
+from view import tryui
 import operationsMongo
 import generateInvoice
 import customModel
@@ -7,7 +7,7 @@ import icons_rc
 import datetime
 
 
-class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
+class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
     totalAmount = 0
 
@@ -48,12 +48,24 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_3.hideColumn(0)
         self.tableView_3.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_3.customContextMenuRequested.connect(lambda: self.context_menu(self.model_3, self.tableView_3))
+        
+        self.user_data_4 = operationsMongo.Database("SP").getMultipleData()
+        self.model_4 = customModel.CustomTableModel(self.user_data_4, "SP")
+        self.tableView_4.setModel(self.model_4)
+        self.tableView_4.setItemDelegate(self.delegate)
+        self.tableView_4.hideRow(0)
+        self.tableView_4.hideColumn(0)
+        self.tableView_4.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.tableView_4.customContextMenuRequested.connect(lambda: self.context_menu(self.model_4, self.tableView_4))
+
         self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "NAZWA"))
         self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NAZWA_I"))
         self.sortItemsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("ASOR").sortAlphabetically("ASOR", "NAZWA")), 1))
         self.sortClientsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("KONTRAH").sortAlphabetically("KONTRAH", "NAZWA_I")), 2))
         self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
+        self.searchClientByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NR_KONTRAH"))
+        self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
 
@@ -62,6 +74,11 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
         self.clientResultLabel.setText(clientName)
         # you can add here clear
+   
+    # def showInvoice(self, varModel, varTableView):
+    #     clientName, clientAddress, clientContact = varModel.showInvoice(varTableView.currentIndex())
+    #     PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
+    #     self.clientResultLabel.setText(clientName)
 
     def generateInvoiceFinalAction(self):
         totalAmount = 0
@@ -103,7 +120,9 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         elif selectTable == 3:
             self.model_3 = customModel.CustomTableModel(varUserData, "TEMPSP")
             self.tableView_3.setModel(self.model_3)
-        
+        elif selectTable == 4:
+            self.model_4 = customModel.CustomTableModel(varUserData, "SP")
+            self.tableView_4.setModel(self.model_4)
 
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName, searchedKey):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
@@ -111,6 +130,21 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
             if ok:
                 self.refreshTable((operationsMongo.Database(collectionName).searchForItem(searchPhrase, collectionName, searchedKey)), selectTable=1)
         except IndexError:
+             QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Brak takiej pozycji!")
+    
+    def searchItemByCode(self, varModel, varTableView, varUserData, collectionName, searchedKey):
+        searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
+        try:
+            if ok:
+                if varModel == self.model:
+                    self.refreshTable((operationsMongo.Database(collectionName).searchByNumer(searchPhrase, collectionName, searchedKey)), selectTable=1)
+                elif varModel == self.model_2:
+                    self.refreshTable((operationsMongo.Database(collectionName).searchByNumer(int(searchPhrase), collectionName, searchedKey)), selectTable=2)
+        except IndexError:
+             QtWidgets.QMessageBox.critical(
+                        self, "Błąd", "Brak takiej pozycji!")
+        except ValueError:
              QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Brak takiej pozycji!")
     
@@ -132,6 +166,9 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
             refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("KONTRAH").getMultipleData(), 2))
         elif varModel == self.model_3:
             refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), 3))
+        elif varModel == self.model_4:
+            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("SP").getMultipleData(), 4))
+        
         if varModel == self.model:
             add_to_invoice = menu.addAction("Add This To Invoice")
             add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
@@ -140,18 +177,27 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
             set_client_for_invoice = menu.addAction("Choose this Client")
             set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
             set_client_for_invoice.triggered.connect(lambda : self.setClient(varModel, varTableView))
-        add_data = menu.addAction("Add New Data")
-        add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        add_data.triggered.connect(lambda: varModel.insertRows())
-        if varTableView.selectedIndexes():
-            remove_data = menu.addAction("Remove Data")
-            remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
-            remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
+        elif varModel == self.model_4:
+            show_this_invoice = menu.addAction("Show this invoice")
+            show_this_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            show_this_invoice.triggered.connect(lambda : self.refreshTable(varModel.showInvoice(varTableView.currentIndex()), 4))
+        if varModel == self.model_4:
+            pass
+        else:
+            add_data = menu.addAction("Add New Data")
+            add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_data.triggered.connect(lambda: varModel.insertRows())
+        
+        if varModel == self.model_4:
+            pass
+        else:
+            if varTableView.selectedIndexes():
+                remove_data = menu.addAction("Remove Data")
+                remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
+                remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
         cursor = QtGui.QCursor()
         menu.exec_(cursor.pos())
         return PythonMongoDB.invoice
-    
-    
         
 
 if __name__ == '__main__':

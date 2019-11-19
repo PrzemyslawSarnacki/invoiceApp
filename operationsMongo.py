@@ -23,8 +23,8 @@ class Database:
         return list(data)
     
     
-    def searchByNIP(self, search_this, collection):
-        data = self.collection.find({"REJESTR":  {"$regex": search_this}})
+    def searchByNumer(self, search_this, collection, searchedKey):
+        data = self.collection.find({searchedKey: search_this})
         return list(data)
 
 
