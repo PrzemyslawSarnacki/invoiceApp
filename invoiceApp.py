@@ -50,8 +50,8 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "NAZWA"))
         self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NAZWA_I"))
-        self.sortItemsByNameButton.clicked.connect(lambda : self.sortItemsByName(self.model, self.tableView, self.user_data, "ASOR"))
-        self.sortClientsByNameButton.clicked.connect(lambda : self.sortClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH"))
+        self.sortItemsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("ASOR").sortAlphabetically("ASOR", "NAZWA")), 1))
+        self.sortClientsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("KONTRAH").sortAlphabetically("KONTRAH", "NAZWA_I")), 2))
         self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
 
     def context_menu_client(self, varModel , varTableView):
@@ -139,16 +139,6 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
              QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Brak takiej pozycji!")
     
-    def sortClientByName(self, varModel, varTableView, varUserData, collectionName):
-        varUserData = operationsMongo.Database(collectionName).sortAlphabetically(collectionName, "NAZWA_I")
-        self.model_2 = customModel.CustomTableModel(varUserData, collectionName)
-        self.tableView_2.setModel(self.model_2)
-
-    def sortItemsByName(self, varModel, varTableView, varUserData, collectionName):
-        varUserData = operationsMongo.Database(collectionName).sortAlphabetically(collectionName, "NAZWA")
-        self.model = customModel.CustomTableModel(varUserData, collectionName)
-        self.tableView.setModel(self.model)
-
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
         refresh_data = menu.addAction("Refresh Data")
