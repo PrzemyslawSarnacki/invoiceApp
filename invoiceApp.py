@@ -103,12 +103,12 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
                 itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
                 PythonMongoDB.totalAmount += itemAndCountMultiplied
                 self.totalAmountResultLabel.setText(str(PythonMongoDB.totalAmount))
-                self.refreshTable(self.user_data_3, operationsMongo.Database("TEMPSP").getMultipleData(), selectTable=3)   
+                self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), selectTable=3)   
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
         
-    def refreshTable(self, varUserData, operation, selectTable):
+    def refreshTable(self, operation, selectTable):
         varUserData = operation
         if selectTable == 1:
             self.model = customModel.CustomTableModel(varUserData, "ASOR")
@@ -125,12 +125,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
         try:
             if ok:
-                # varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
-                # varModel = customModel.CustomTableModel(varUserData, collectionName)
-                # varTableView.setModel(varModel)
-                varUserData = operationsMongo.Database(collectionName).searchForItem(searchPhrase, collectionName, searchedKey)
-                self.model = customModel.CustomTableModel(varUserData, collectionName)
-                self.tableView.setModel(self.model)
+                self.refreshTable((operationsMongo.Database(collectionName).searchForItem(searchPhrase, collectionName, searchedKey)), selectTable=1)
         except IndexError:
              QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Brak takiej pozycji!")
@@ -139,12 +134,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
         try:
             if ok:
-                # varUserData = operationsMongo.Database(collectionName).searchForItem((searchPhrase), collectionName)
-                # varModel = customModel.CustomTableModel(varUserData, collectionName)
-                # varTableView.setModel(varModel)
-                varUserData = operationsMongo.Database(collectionName).searchForItem(searchPhrase, collectionName, searchedKey)
-                self.model_2 = customModel.CustomTableModel(varUserData, collectionName)
-                self.tableView_2.setModel(self.model_2)
+                self.refreshTable((operationsMongo.Database(collectionName).searchForItem(searchPhrase, collectionName, searchedKey)), selectTable=2)
         except IndexError:
              QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Brak takiej pozycji!")
