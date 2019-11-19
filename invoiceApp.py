@@ -103,11 +103,24 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
                 itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
                 PythonMongoDB.totalAmount += itemAndCountMultiplied
                 self.totalAmountResultLabel.setText(str(PythonMongoDB.totalAmount))
+                self.refreshTable(self.user_data_3, operationsMongo.Database("TEMPSP").getMultipleData(), selectTable=3)   
         else:
             QtWidgets.QMessageBox.critical(
                         self, "Błąd", "Wybierz Klienta!")
         
-    
+    def refreshTable(self, varUserData, operation, selectTable):
+        varUserData = operation
+        if selectTable == 1:
+            self.model = customModel.CustomTableModel(varUserData, "ASOR")
+            self.tableView.setModel(self.model)
+        elif selectTable == 2:
+            self.model_2 = customModel.CustomTableModel(varUserData, "KONTRAH")
+            self.tableView_2.setModel(self.model_2)
+        elif selectTable == 3:
+            self.model_3 = customModel.CustomTableModel(varUserData, "TEMPSP")
+            self.tableView_3.setModel(self.model_3)
+        
+
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName, searchedKey):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(self, 'Wprowadz dane', 'Wprowadz dane')
         try:

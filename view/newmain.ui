@@ -85,7 +85,7 @@
     <item row="4" column="0">
      <widget class="QLabel" name="totalAmountLabel">
       <property name="text">
-       <string>Total Amount:</string>
+       <string>Total Netto Amount:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -102,7 +102,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="6">
-        <widget class="QPushButton" name="searchClientsByNIPButton">
+        <widget class="QPushButton" name="pushButton_6">
          <property name="text">
           <string>Search by NIP</string>
          </property>
@@ -126,9 +126,9 @@
         </widget>
        </item>
        <item row="2" column="4">
-        <widget class="QPushButton" name="sortClientsByNameButton">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>Sort by name</string>
+          <string>Search</string>
          </property>
         </widget>
        </item>
@@ -143,16 +143,16 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QPushButton" name="sortItemsByNameButton">
+        <widget class="QPushButton" name="pushButton_3">
          <property name="text">
-          <string>Sort by Name</string>
+          <string>PushButton</string>
          </property>
         </widget>
        </item>
        <item row="2" column="5">
-        <widget class="QPushButton" name="searchClientsByCodeButton">
+        <widget class="QPushButton" name="pushButton_5">
          <property name="text">
-          <string>Search by Code</string>
+          <string>PushButton</string>
          </property>
         </widget>
        </item>
