@@ -4,6 +4,7 @@ import operationsMongo
 import generateInvoice
 import customModel
 import icons_rc
+import datetime
 
 
 class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
@@ -37,7 +38,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_2.setModel(self.model_2)
         self.tableView_2.setItemDelegate(self.delegate)
         self.tableView_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.tableView_2.customContextMenuRequested.connect(lambda : self.context_menu_client(self.model_2, self.tableView_2))
+        self.tableView_2.customContextMenuRequested.connect(lambda : self.context_menu(self.model_2, self.tableView_2))
         # self.generateInvoiceButton.clicked.connect(lambda : print(j)))
         self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
         self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
@@ -53,25 +54,8 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
         self.sortItemsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("ASOR").sortAlphabetically("ASOR", "NAZWA")), 1))
         self.sortClientsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("KONTRAH").sortAlphabetically("KONTRAH", "NAZWA_I")), 2))
         self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
-
-    def context_menu_client(self, varModel , varTableView):
-        menu = QtWidgets.QMenu()
-        set_client_for_invoice = menu.addAction("Choose this Client")
-        set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        set_client_for_invoice.triggered.connect(lambda : self.setClient(varModel, varTableView))
-        # debug = menu.addAction("Debug")
-        # debug.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        # debug.triggered.connect(lambda: print(y))
-        add_data = menu.addAction("Add New Data")
-        add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        add_data.triggered.connect(lambda: varModel.insertRows())
-        if varTableView.selectedIndexes():
-            remove_data = menu.addAction("Remove Data")
-            remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
-            remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
-        cursor = QtGui.QCursor()
-        menu.exec_(cursor.pos())
-        return PythonMongoDB.invoice
+        self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
+        self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
 
     def setClient(self, varModel, varTableView):
         clientName, clientAddress, clientContact = varModel.setClientForInvoice(varTableView.currentIndex())
@@ -142,13 +126,20 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
         refresh_data = menu.addAction("Refresh Data")
-        if refresh_data.triggered.connect(lambda: self):
-            self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
-            self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
-            self.tableView_3.setModel(self.model_3)
-        add_to_invoice = menu.addAction("Add This To Invoice")
-        add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-        add_to_invoice.triggered.connect(lambda: self.getAmountOfStuff(varModel, varTableView))
+        if varModel == self.model:
+            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("ASOR").getMultipleData(), 1))
+        elif varModel == self.model_2:
+            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("KONTRAH").getMultipleData(), 2))
+        elif varModel == self.model_3:
+            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), 3))
+        if varModel == self.model:
+            add_to_invoice = menu.addAction("Add This To Invoice")
+            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_to_invoice.triggered.connect(lambda: self.getAmountOfStuff(varModel, varTableView))
+        elif varModel == self.model_2:
+            set_client_for_invoice = menu.addAction("Choose this Client")
+            set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            set_client_for_invoice.triggered.connect(lambda : self.setClient(varModel, varTableView))
         add_data = menu.addAction("Add New Data")
         add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
         add_data.triggered.connect(lambda: varModel.insertRows())
@@ -158,6 +149,7 @@ class PythonMongoDB(newmain.Ui_MainWindow, QtWidgets.QMainWindow):
             remove_data.triggered.connect(lambda: varModel.removeRows(varTableView.currentIndex()))
         cursor = QtGui.QCursor()
         menu.exec_(cursor.pos())
+        return PythonMongoDB.invoice
     
     
         
