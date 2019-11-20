@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>852</width>
-    <height>825</height>
+    <height>848</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,7 +103,7 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="2">
+             <item row="1" column="0" colspan="3">
               <widget class="QFrame" name="frame">
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -112,7 +112,123 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_4">
-                <item row="6" column="0" rowspan="4">
+                <item row="0" column="0" rowspan="4" colspan="4">
+                 <widget class="QFrame" name="frame_5">
+                  <layout class="QGridLayout" name="gridLayout_5">
+                   <item row="4" column="1">
+                    <widget class="QPushButton" name="searchForItemButton">
+                     <property name="text">
+                      <string>Search by Name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QPushButton" name="searchItemByCodeButton">
+                     <property name="text">
+                      <string>Search by Code</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="9">
+                    <widget class="QLabel" name="clientLabel">
+                     <property name="text">
+                      <string>Client:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="6" rowspan="3" colspan="4">
+                    <widget class="QTableView" name="tableView_2"/>
+                   </item>
+                   <item row="4" column="9">
+                    <widget class="QPushButton" name="searchForClientButton">
+                     <property name="text">
+                      <string>Search For Client</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="6">
+                    <widget class="QPushButton" name="searchClientByCodeButton">
+                     <property name="text">
+                      <string>Search by Code</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="9">
+                    <widget class="QLabel" name="clientResultLabel">
+                     <property name="text">
+                      <string>Not selected yet</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="4">
+                    <widget class="QPushButton" name="sortItemsByNameButton">
+                     <property name="text">
+                      <string>Sort by Name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="7">
+                    <widget class="QPushButton" name="searchClientsByNIPButton">
+                     <property name="text">
+                      <string>Search by NIP</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="8">
+                    <widget class="QPushButton" name="sortClientsByNameButton">
+                     <property name="text">
+                      <string>Sort by name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <widget class="QPushButton" name="searchItemByGroupButton">
+                     <property name="text">
+                      <string>Search by Group</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1" rowspan="3" colspan="4">
+                    <widget class="QTableView" name="tableView">
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::SingleSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>50</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="9" column="2" colspan="2">
+                 <widget class="QTableView" name="tableView_3"/>
+                </item>
+                <item row="6" column="0" rowspan="4" colspan="2">
                  <widget class="QFrame" name="frame_4">
                   <widget class="QLabel" name="paymentLabel">
                    <property name="geometry">
@@ -144,6 +260,11 @@
                    <item>
                     <property name="text">
                      <string>Gotówka</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Rabat</string>
                     </property>
                    </item>
                   </widget>
@@ -276,128 +397,126 @@
                     </date>
                    </property>
                   </widget>
-                 </widget>
-                </item>
-                <item row="9" column="1" colspan="3">
-                 <widget class="QTableView" name="tableView_3"/>
-                </item>
-                <item row="0" column="0" rowspan="4" colspan="4">
-                 <widget class="QFrame" name="frame_5">
-                  <layout class="QGridLayout" name="gridLayout_5">
-                   <item row="4" column="1">
-                    <widget class="QPushButton" name="searchForItemButton">
-                     <property name="text">
-                      <string>Search by Name</string>
-                     </property>
-                    </widget>
+                  <widget class="QLabel" name="invoicTypeLabel_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>10</y>
+                     <width>71</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Typ faktury</string>
+                   </property>
+                  </widget>
+                  <widget class="QComboBox" name="invoiceTypeComboBox">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>30</y>
+                     <width>68</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Hurtowa</string>
+                    </property>
                    </item>
-                   <item row="4" column="4">
-                    <widget class="QPushButton" name="pushButton_2">
-                     <property name="text">
-                      <string>PushButton</string>
-                     </property>
-                    </widget>
+                   <item>
+                    <property name="text">
+                     <string>Paragon</string>
+                    </property>
                    </item>
-                   <item row="4" column="2">
-                    <widget class="QPushButton" name="searchItemByCodeButton">
-                     <property name="text">
-                      <string>Search by Code</string>
-                     </property>
-                    </widget>
+                   <item>
+                    <property name="text">
+                     <string>Kupna</string>
+                    </property>
                    </item>
-                   <item row="5" column="8">
-                    <widget class="QLabel" name="clientLabel">
-                     <property name="text">
-                      <string>Client:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
+                  </widget>
+                  <widget class="QLabel" name="invoicTypeLabel_3">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>60</y>
+                     <width>71</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Typ dokumentu:</string>
+                   </property>
+                  </widget>
+                  <widget class="QComboBox" name="invoiceTypeComboBox_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>80</y>
+                     <width>68</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>WZ</string>
+                    </property>
                    </item>
-                   <item row="1" column="5" rowspan="3" colspan="4">
-                    <widget class="QTableView" name="tableView_2"/>
+                   <item>
+                    <property name="text">
+                     <string>PZ</string>
+                    </property>
                    </item>
-                   <item row="4" column="8">
-                    <widget class="QPushButton" name="searchForClientButton">
-                     <property name="text">
-                      <string>Search For Client</string>
-                     </property>
-                    </widget>
+                   <item>
+                    <property name="text">
+                     <string>MZ</string>
+                    </property>
                    </item>
-                   <item row="4" column="5">
-                    <widget class="QPushButton" name="searchClientByCodeButton">
-                     <property name="text">
-                      <string>Search by Code</string>
-                     </property>
-                    </widget>
+                  </widget>
+                  <widget class="QLabel" name="invoicTypeLabel_4">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>110</y>
+                     <width>71</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Magazyn:</string>
+                   </property>
+                  </widget>
+                  <widget class="QComboBox" name="invoiceTypeComboBox_3">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>130</y>
+                     <width>68</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1</string>
+                    </property>
                    </item>
-                   <item row="6" column="8">
-                    <widget class="QLabel" name="clientResultLabel">
-                     <property name="text">
-                      <string>Not selected yet</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
+                   <item>
+                    <property name="text">
+                     <string>2</string>
+                    </property>
                    </item>
-                   <item row="4" column="3">
-                    <widget class="QPushButton" name="sortItemsByNameButton">
-                     <property name="text">
-                      <string>Sort by Name</string>
-                     </property>
-                    </widget>
+                   <item>
+                    <property name="text">
+                     <string>3</string>
+                    </property>
                    </item>
-                   <item row="4" column="6">
-                    <widget class="QPushButton" name="searchClientsByNIPButton">
-                     <property name="text">
-                      <string>Search by NIP</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="7">
-                    <widget class="QPushButton" name="sortClientsByNameButton">
-                     <property name="text">
-                      <string>Sort by name</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0" colspan="5">
-                    <widget class="QTableView" name="tableView">
-                     <property name="selectionMode">
-                      <enum>QAbstractItemView::SingleSelection</enum>
-                     </property>
-                     <property name="selectionBehavior">
-                      <enum>QAbstractItemView::SelectRows</enum>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>50</width>
-                       <height>50</height>
-                      </size>
-                     </property>
-                     <property name="sortingEnabled">
-                      <bool>true</bool>
-                     </property>
-                     <attribute name="horizontalHeaderCascadingSectionResizes">
-                      <bool>true</bool>
-                     </attribute>
-                     <attribute name="horizontalHeaderStretchLastSection">
-                      <bool>true</bool>
-                     </attribute>
-                     <attribute name="verticalHeaderCascadingSectionResizes">
-                      <bool>false</bool>
-                     </attribute>
-                    </widget>
-                   </item>
-                  </layout>
+                  </widget>
                  </widget>
                 </item>
                </layout>
               </widget>
              </item>
-             <item row="0" column="2">
+             <item row="0" column="1">
               <widget class="QLabel" name="label_2">
                <property name="font">
                 <font>
@@ -476,7 +595,7 @@
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="sortInvoicesPushButton_5">
                <property name="text">
                 <string>Sort</string>
                </property>

@@ -97,11 +97,11 @@ class Database:
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         # document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
-        itemAndCountMultiplied = generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":vatCondition,"PODAT":tax,"UPUST":discount})
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
         # generateInvoice.createInvoice(invoice)
-        return document.acknowledged, itemAndCountMultiplied
+        return document.acknowledged
     
     def addDataToInvoiceList(self, document_id, invoice, amountOfStuff=1):
         document = self.collection.find_one({'_id': ObjectId(document_id)})

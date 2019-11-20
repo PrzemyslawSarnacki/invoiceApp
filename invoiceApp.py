@@ -80,6 +80,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         #     QtWidgets.QMessageBox.critical(
         #                 self, "Błąd", "Wypełnij komórkę!")
         totalAmount = 0
+        taxAmount = 0
         finalInvoiceList = operationsMongo.Database("TEMPSP").getMultipleData()
         discount = self.discountSpinBox.value()
         print(discount)
@@ -91,18 +92,21 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             # itemCode = (invoiceFinalItem)["KOD"]
             vatCondition="PRAWDA"
             tax = invoiceFinalItem["PODAT"]
-            # discount = float(invoiceFinalItem["UPUST"])
+            if invoiceFinalItem["UPUST"] != 0:
+                discount = float(invoiceFinalItem["UPUST"])
             amountOfStuff = float((invoiceFinalItem)["ILOSC"])
             document_id = (invoiceFinalItem)["PREVID"]
-            ok, itemAndCountMultiplied = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition)
-            totalAmount += itemAndCountMultiplied
+            ok = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition)
+            totalAmount += amountOfStuff * (invoiceFinalItem["CENA"])
+            taxAmount += 0 if tax == 0 else ((tax/100) * totalAmount)
         try:
             if ok:
                 paymentType = self.paymentComboBox.currentText()
                 invoiceGenerationDate = self.invoiceGenerationDateEdit.date().toString("dd.MM.yyyy")
                 invoicePaymentDate = self.invoicePaymentDateEdit.date().toString("dd.MM.yyyy")
                 invoiceNumber = self.invoiceNumberEdit.text()
-                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceNumber)
+                invoiceType = self.invoiceTypeComboBox.currentText()
+                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceNumber, discount, tax, invoiceType, taxAmount)
                 QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
                 operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
         except UnboundLocalError:
