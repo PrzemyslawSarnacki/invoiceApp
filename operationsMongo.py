@@ -28,8 +28,12 @@ class Database:
         return list(data)
 
 
-    def sortAlphabetically(self, collection, collumnToSort):
+    def sortAscending(self, collection, collumnToSort):
         data = self.collection.find().sort(collumnToSort, pymongo.ASCENDING)
+        return list(data)
+
+    def sortDescending(self, collection, collumnToSort):
+        data = self.collection.find().sort(collumnToSort, pymongo.DESCENDING)
         return list(data)
         # for item in collection.find({"$text": {"$search": search_this}}).limit(10): 
         #     print(item)
