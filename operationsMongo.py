@@ -80,11 +80,17 @@ class Database:
         return document.acknowledged
 
 
-    def subtractDataFromWarehouse(self, document_id, invoice, amountOfStuff=1):
+    def subtractDataFromWarehouse(self, document_id, invoice, listPosition, amountOfStuff=1, tax=23.0, discount=0, vatCondition="PRAWDA"):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
         itemName = document["NAZWA"]
-        itemPrice = document["KOSZT"]
+        itemPrice = float(document["KOSZT"])
+        itemCode = document["KOD"]
+        invoiceCode = Database("SP").getSingleLastData()["NR_KOD"] + 1
+        if discount != 0:
+            itemPrice = itemPrice * ((100-discount)/100)
+        if vatCondition == "FAŁSZ":
+            tax = 0
         ILOSC = float(document['ILOSC'])
         ILOSC -= amountOfStuff
         print(ILOSC)
@@ -92,6 +98,7 @@ class Database:
         # document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
         itemAndCountMultiplied = generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":vatCondition,"PODAT":tax,"UPUST":discount})
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
         # generateInvoice.createInvoice(invoice)
         return document.acknowledged, itemAndCountMultiplied

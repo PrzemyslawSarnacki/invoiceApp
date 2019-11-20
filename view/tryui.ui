@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
-    <height>758</height>
+    <width>852</width>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,6 +103,300 @@
                </property>
               </widget>
              </item>
+             <item row="1" column="2">
+              <widget class="QFrame" name="frame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="6" column="0" rowspan="4">
+                 <widget class="QFrame" name="frame_4">
+                  <widget class="QLabel" name="paymentLabel">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>56</y>
+                     <width>45</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Płatność:</string>
+                   </property>
+                  </widget>
+                  <widget class="QComboBox" name="paymentComboBox">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>76</y>
+                     <width>68</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Przelew</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Gotówka</string>
+                    </property>
+                   </item>
+                  </widget>
+                  <widget class="QLabel" name="discountLabel">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>102</y>
+                     <width>32</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Upust:</string>
+                   </property>
+                  </widget>
+                  <widget class="QSpinBox" name="discountSpinBox">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>123</y>
+                     <width>37</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="invoiceGenerationDateLabel">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>149</y>
+                     <width>89</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Data wystawienia:</string>
+                   </property>
+                  </widget>
+                  <widget class="QDateEdit" name="invoiceGenerationDateEdit">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>169</y>
+                     <width>81</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="invoiceGenerationDateLabel_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>195</y>
+                     <width>73</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Data płatności:</string>
+                   </property>
+                  </widget>
+                  <widget class="QDateEdit" name="invoicePaymentDateEdit">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>216</y>
+                     <width>81</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <property name="date">
+                    <date>
+                     <year>2020</year>
+                     <month>1</month>
+                     <day>10</day>
+                    </date>
+                   </property>
+                  </widget>
+                  <widget class="QLineEdit" name="invoiceNumberEdit">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>30</y>
+                     <width>133</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="invoiceNumberLabel">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>9</y>
+                     <width>55</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Nr Faktury:</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="invoiceGenerationDateLabel_3">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>242</y>
+                     <width>79</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Data sprzedaży:</string>
+                   </property>
+                  </widget>
+                  <widget class="QDateEdit" name="invoicePaymentDateEdit_2">
+                   <property name="geometry">
+                    <rect>
+                     <x>9</x>
+                     <y>262</y>
+                     <width>81</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <property name="date">
+                    <date>
+                     <year>2020</year>
+                     <month>1</month>
+                     <day>10</day>
+                    </date>
+                   </property>
+                  </widget>
+                 </widget>
+                </item>
+                <item row="9" column="1" colspan="3">
+                 <widget class="QTableView" name="tableView_3"/>
+                </item>
+                <item row="0" column="0" rowspan="4" colspan="4">
+                 <widget class="QFrame" name="frame_5">
+                  <layout class="QGridLayout" name="gridLayout_5">
+                   <item row="4" column="1">
+                    <widget class="QPushButton" name="searchForItemButton">
+                     <property name="text">
+                      <string>Search by Name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="4">
+                    <widget class="QPushButton" name="pushButton_2">
+                     <property name="text">
+                      <string>PushButton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QPushButton" name="searchItemByCodeButton">
+                     <property name="text">
+                      <string>Search by Code</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="8">
+                    <widget class="QLabel" name="clientLabel">
+                     <property name="text">
+                      <string>Client:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="5" rowspan="3" colspan="4">
+                    <widget class="QTableView" name="tableView_2"/>
+                   </item>
+                   <item row="4" column="8">
+                    <widget class="QPushButton" name="searchForClientButton">
+                     <property name="text">
+                      <string>Search For Client</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="5">
+                    <widget class="QPushButton" name="searchClientByCodeButton">
+                     <property name="text">
+                      <string>Search by Code</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="8">
+                    <widget class="QLabel" name="clientResultLabel">
+                     <property name="text">
+                      <string>Not selected yet</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="3">
+                    <widget class="QPushButton" name="sortItemsByNameButton">
+                     <property name="text">
+                      <string>Sort by Name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="6">
+                    <widget class="QPushButton" name="searchClientsByNIPButton">
+                     <property name="text">
+                      <string>Search by NIP</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="7">
+                    <widget class="QPushButton" name="sortClientsByNameButton">
+                     <property name="text">
+                      <string>Sort by name</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0" colspan="5">
+                    <widget class="QTableView" name="tableView">
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::SingleSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>50</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
              <item row="0" column="2">
               <widget class="QLabel" name="label_2">
                <property name="font">
@@ -129,203 +423,6 @@
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QFrame" name="frame">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <item row="2" column="1">
-              <widget class="QPushButton" name="searchItemByCodeButton">
-               <property name="text">
-                <string>Search by Code</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4" colspan="5">
-              <widget class="QTableView" name="tableView_2"/>
-             </item>
-             <item row="6" column="8">
-              <widget class="QLabel" name="clientLabel">
-               <property name="text">
-                <string>Client:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="5">
-              <widget class="QPushButton" name="searchClientByCodeButton">
-               <property name="text">
-                <string>Search by Code</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="8">
-              <widget class="QLabel" name="clientResultLabel">
-               <property name="text">
-                <string>Not selected yet</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0" rowspan="5">
-              <widget class="QFrame" name="frame_4">
-               <layout class="QGridLayout" name="gridLayout_5">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="paymentLabel">
-                  <property name="text">
-                   <string>Płatność:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QComboBox" name="paymentComboBox">
-                  <item>
-                   <property name="text">
-                    <string>Przelew</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Gotówka</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="discountLabel">
-                  <property name="text">
-                   <string>Upust:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QSpinBox" name="discountSpinBox"/>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="invoiceGenerationDateLabel">
-                  <property name="text">
-                   <string>Data wystawienia:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QDateEdit" name="invoiceGenerationDateEdit"/>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="invoiceGenerationDateLabel_2">
-                  <property name="text">
-                   <string>Data płatności:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QDateEdit" name="invoicePaymentDateEdit">
-                  <property name="date">
-                   <date>
-                    <year>2020</year>
-                    <month>1</month>
-                    <day>10</day>
-                   </date>
-                  </property>
-                 </widget>
-                </item>
-                <item row="8" column="0">
-                 <widget class="QLabel" name="invoiceNumberLabel">
-                  <property name="text">
-                   <string>Nr Faktury:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="9" column="0">
-                 <widget class="QLineEdit" name="invoiceNumberEdit"/>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item row="2" column="6">
-              <widget class="QPushButton" name="searchClientsByNIPButton">
-               <property name="text">
-                <string>Search by NIP</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QPushButton" name="sortItemsByNameButton">
-               <property name="text">
-                <string>Sort by Name</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="8">
-              <widget class="QPushButton" name="searchForClientButton">
-               <property name="text">
-                <string>Search For Client</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0" colspan="4">
-              <widget class="QTableView" name="tableView">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="sortingEnabled">
-                <bool>true</bool>
-               </property>
-               <attribute name="horizontalHeaderCascadingSectionResizes">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="horizontalHeaderStretchLastSection">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="verticalHeaderCascadingSectionResizes">
-                <bool>false</bool>
-               </attribute>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="searchForItemButton">
-               <property name="text">
-                <string>Search by Name</string>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="2" colspan="7">
-              <widget class="QTableView" name="tableView_3"/>
-             </item>
-             <item row="2" column="7">
-              <widget class="QPushButton" name="sortClientsByNameButton">
-               <property name="text">
-                <string>Sort by name</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </widget>
           </item>
           <item row="4" column="0">
@@ -446,7 +543,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>891</width>
+     <width>852</width>
      <height>21</height>
     </rect>
    </property>

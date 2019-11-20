@@ -81,17 +81,28 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         #                 self, "Błąd", "Wypełnij komórkę!")
         totalAmount = 0
         finalInvoiceList = operationsMongo.Database("TEMPSP").getMultipleData()
+        discount = self.discountSpinBox.value()
+        print(discount)
+        listPosition = 0
         for invoiceFinalItem in finalInvoiceList[1:]:
+            listPosition += 1
             # itemName = (invoiceFinalItem)["NAZWA"]
             # itemPrice = (invoiceFinalItem)["KOSZT"]
             # itemCode = (invoiceFinalItem)["KOD"]
+            vatCondition="PRAWDA"
+            tax = invoiceFinalItem["PODAT"]
+            # discount = float(invoiceFinalItem["UPUST"])
             amountOfStuff = float((invoiceFinalItem)["ILOSC"])
             document_id = (invoiceFinalItem)["PREVID"]
-            ok, itemAndCountMultiplied = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, amountOfStuff)
+            ok, itemAndCountMultiplied = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition)
             totalAmount += itemAndCountMultiplied
         try:
             if ok:
-                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount)
+                paymentType = self.paymentComboBox.currentText()
+                invoiceGenerationDate = self.invoiceGenerationDateEdit.date().toString("dd.MM.yyyy")
+                invoicePaymentDate = self.invoicePaymentDateEdit.date().toString("dd.MM.yyyy")
+                invoiceNumber = self.invoiceNumberEdit.text()
+                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceNumber)
                 QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
                 operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
         except UnboundLocalError:

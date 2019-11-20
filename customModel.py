@@ -154,10 +154,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
         print(invoiceCode)
         operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
-        print(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])
-        print(operationsMongo.Database("TEMPSP").getMultipleData())
-        print(operationsMongo.Database(self.collection).getSingleData(ObjectId(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])))
-        operationsMongo.Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        # print(operationsMongo.Database(self.collection).getSingleData(ObjectId(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])))
         itemAndCountMultiplied = itemPrice*float(amountOfStuff)
 
         return itemAndCountMultiplied
