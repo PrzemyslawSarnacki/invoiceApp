@@ -25,17 +25,16 @@ def setClient(clientName, clientAddress, clientPostCode, clientAdditionalData):
 def addItemToInvoice(invoice, dbItemCount, dbItemName, dbItemPrice):
     invoice.add_item(Item(dbItemCount, dbItemPrice, description=dbItemName, tax=23))
 
-def createInvoice(invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceNumber, discount, tax, invoiceType, taxAmount):
+def createInvoice(invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse):
     pdf = SimpleInvoice(invoice)
     currentDate = datetime.datetime.now().strftime("%H.%M %d-%m-%y")
-    currentDateDbFormat = datetime.datetime.now().strftime("%d.%m.%Y")
     pdf.gen("faktura " + str(currentDate) + ".pdf", generate_qr_code=True)
     invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
     warehouseDocumentCode = operationsMongo.Database("SP").getSingleLastData()["NR_DOK_MG"] + 1
     invoice.number = invoiceNumber
     yearlyNumber = 1 if invoiceGenerationDate.split(".")[1] == '01'else (operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
     # print(invoice.client.summary)
-    operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":invoiceType,"DATA":invoiceGenerationDate,"NUMER":yearlyNumber,"MAGAZYN":1,"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":discount,"RODZ_PL":paymentType,"UWAGI_PL":'',"DATA_PL":invoicePaymentDate,"R_CEN":"H","MAGA":"PRAWDA","PODAT_WR": taxAmount,"DATA_SPRZ":currentDateDbFormat,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":warehouseDocumentCode,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'null',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
+    operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":invoiceType,"DATA":invoiceGenerationDate,"NUMER":yearlyNumber,"MAGAZYN":int(warehouse),"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":discount,"RODZ_PL":paymentType,"UWAGI_PL":'',"DATA_PL":invoicePaymentDate,"R_CEN":"H","MAGA":"PRAWDA","PODAT_WR": taxAmount,"DATA_SPRZ":invoiceSaleDate,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":warehouseDocumentCode,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'PZL',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
     
 # 
 # This is part for Purchase Invoice creation

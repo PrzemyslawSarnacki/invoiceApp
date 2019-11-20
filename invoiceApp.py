@@ -104,9 +104,11 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 paymentType = self.paymentComboBox.currentText()
                 invoiceGenerationDate = self.invoiceGenerationDateEdit.date().toString("dd.MM.yyyy")
                 invoicePaymentDate = self.invoicePaymentDateEdit.date().toString("dd.MM.yyyy")
+                invoiceSaleDate = self.invoiceSaleDateEdit_2.date().toString("dd.MM.yyyy")
                 invoiceNumber = self.invoiceNumberEdit.text()
                 invoiceType = self.invoiceTypeComboBox.currentText()
-                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceNumber, discount, tax, invoiceType, taxAmount)
+                warehouse = self.warehouseSelectComboBox_3.currentText()
+                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse)
                 QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
                 operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
         except UnboundLocalError:

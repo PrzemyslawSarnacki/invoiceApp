@@ -367,7 +367,7 @@
                     <string>Nr Faktury:</string>
                    </property>
                   </widget>
-                  <widget class="QLabel" name="invoiceGenerationDateLabel_3">
+                  <widget class="QLabel" name="invoiceSaleDateLabel_3">
                    <property name="geometry">
                     <rect>
                      <x>9</x>
@@ -380,7 +380,7 @@
                     <string>Data sprzedaży:</string>
                    </property>
                   </widget>
-                  <widget class="QDateEdit" name="invoicePaymentDateEdit_2">
+                  <widget class="QDateEdit" name="invoiceSaleDateEdit_2">
                    <property name="geometry">
                     <rect>
                      <x>9</x>
@@ -473,7 +473,7 @@
                     </property>
                    </item>
                   </widget>
-                  <widget class="QLabel" name="invoicTypeLabel_4">
+                  <widget class="QLabel" name="warehouseSelectLabel_4">
                    <property name="geometry">
                     <rect>
                      <x>180</x>
@@ -486,7 +486,7 @@
                     <string>Magazyn:</string>
                    </property>
                   </widget>
-                  <widget class="QComboBox" name="invoiceTypeComboBox_3">
+                  <widget class="QComboBox" name="warehouseSelectComboBox_3">
                    <property name="geometry">
                     <rect>
                      <x>180</x>
@@ -508,6 +508,39 @@
                    <item>
                     <property name="text">
                      <string>3</string>
+                    </property>
+                   </item>
+                  </widget>
+                  <widget class="QLabel" name="warehouseSelectLabel_5">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>160</y>
+                     <width>71</width>
+                     <height>16</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Zatwierdzone</string>
+                   </property>
+                  </widget>
+                  <widget class="QComboBox" name="warehouseSelectComboBox_4">
+                   <property name="geometry">
+                    <rect>
+                     <x>180</x>
+                     <y>180</y>
+                     <width>68</width>
+                     <height>20</height>
+                    </rect>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>PRAWDA</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>FAŁSZ</string>
                     </property>
                    </item>
                   </widget>
