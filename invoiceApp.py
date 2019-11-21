@@ -10,6 +10,7 @@ import datetime
 class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
     totalAmount = 0
+    nettoAmount = 0
 
     def __init__(self):
         super(PythonMongoDB, self).__init__()
@@ -67,13 +68,10 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
-        self.documentsTypeComboBox.currentTextChanged.connect(self.setDocumentPreview)
+        self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
 
 
     def setDocumentPreview(self):
-        showContent = True
-        # helpString = "ZAW" if showContent else helpString = ""
-        # halfOfCollectionName = "SP"
         if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
             halfOfCollectionName = "KU"
         elif self.documentsTypeComboBox.currentText() == "Invoices":
@@ -88,7 +86,6 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             halfOfCollectionName = "ROZLICZE"
         elif self.documentsTypeComboBox.currentText() == "Warehouse Cards":
             halfOfCollectionName = "KARTA2"
-        self.refreshTable(operationsMongo.Database(halfOfCollectionName).sortDescending(halfOfCollectionName, "NR_KOD"), 4)
         return halfOfCollectionName
         
     def setClient(self, varModel, varTableView):
@@ -144,7 +141,9 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             if ok:
                 QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
                 itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff)
-                PythonMongoDB.totalAmount += itemAndCountMultiplied
+                PythonMongoDB.nettoAmount += itemAndCountMultiplied 
+                PythonMongoDB.totalAmount += (itemAndCountMultiplied + (itemAndCountMultiplied * 0.23))
+                self.nettoAmountResultLabel.setText(str(PythonMongoDB.nettoAmount))
                 self.totalAmountResultLabel.setText(str(PythonMongoDB.totalAmount))
                 self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), selectTable=3)   
         else:
@@ -163,7 +162,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.model_3 = customModel.CustomTableModel(varUserData, "TEMPSP")
             self.tableView_3.setModel(self.model_3)
         elif selectTable == 4:
-            self.model_4 = customModel.CustomTableModel(varUserData, "SP")
+            self.model_4 = customModel.CustomTableModel(varUserData, self.setDocumentPreview())
             self.tableView_4.setModel(self.model_4)
 
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName, searchedKey):
@@ -209,7 +208,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif varModel == self.model_3:
             refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), 3))
         elif varModel == self.model_4:
-            refresh_data.triggered.connect(self.setDocumentPreview)
+            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
         
         if varModel == self.model:
             add_to_invoice = menu.addAction("Add This To Invoice")
@@ -220,6 +219,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             set_client_for_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
             set_client_for_invoice.triggered.connect(lambda : self.setClient(varModel, varTableView))
         elif varModel == self.model_4:
+
             show_this_invoice = menu.addAction("Show this invoice")
             show_this_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
             show_this_invoice.triggered.connect(lambda : self.refreshTable(varModel.showInvoice(varTableView.currentIndex(), self.setDocumentPreview()), 4))

@@ -1,9 +1,12 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
+from PyQt5 import Qt
 from bson import ObjectId
 import operationsMongo
 import generateInvoice
+import operator
+import pandas
 
 class CustomTableModel(QtCore.QAbstractTableModel):
     def __init__(self, data, collectionName):
@@ -106,6 +109,18 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         row_count += 1
         self.endInsertRows()
         return True
+    
+    def sort(self, Ncol, order):
+        try:
+            self.layoutAboutToBeChanged.emit()
+            if not order:
+                self.user_data = operationsMongo.Database(self.collection).sortDescending(self.collection, self.columns[Ncol])
+            else:
+                self.user_data = operationsMongo.Database(self.collection).sortAscending(self.collection, self.columns[Ncol])
+            # self.user_data = self.user_data.sort_values(self.columns[Ncol], ascending=not order)
+            self.layoutChanged.emit()
+        except Exception as e:
+            print(e)
 
     def removeRows(self, position):
         row_count = self.rowCount()
