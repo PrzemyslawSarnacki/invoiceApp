@@ -67,8 +67,30 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
-        
+        self.documentsTypeComboBox.currentTextChanged.connect(self.setDocumentPreview)
 
+
+    def setDocumentPreview(self):
+        showContent = True
+        # helpString = "ZAW" if showContent else helpString = ""
+        # halfOfCollectionName = "SP"
+        if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
+            halfOfCollectionName = "KU"
+        elif self.documentsTypeComboBox.currentText() == "Invoices":
+            halfOfCollectionName = "SP"
+        elif self.documentsTypeComboBox.currentText() == "PZ":
+            halfOfCollectionName = "PZ"
+        elif self.documentsTypeComboBox.currentText() == "WZ":
+            halfOfCollectionName = "WZ"
+        elif self.documentsTypeComboBox.currentText() == "MM":
+            halfOfCollectionName = "MM"
+        elif self.documentsTypeComboBox.currentText() == "Settlement":
+            halfOfCollectionName = "ROZLICZE"
+        elif self.documentsTypeComboBox.currentText() == "Warehouse Cards":
+            halfOfCollectionName = "KARTA2"
+        self.refreshTable(operationsMongo.Database(halfOfCollectionName).sortDescending(halfOfCollectionName, "NR_KOD"), 4)
+        return halfOfCollectionName
+        
     def setClient(self, varModel, varTableView):
         clientName, clientAddress, clientContact = varModel.setClientForInvoice(varTableView.currentIndex())
         PythonMongoDB.invoice = generateInvoice.setClient(clientName, clientAddress, clientContact, '')
@@ -108,7 +130,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 invoiceNumber = self.invoiceNumberEdit.text()
                 invoiceType = self.invoiceTypeComboBox.currentText()
                 warehouse = self.warehouseSelectComboBox_3.currentText()
-                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse)
+                priceType = self.priceTypeComboBox.currentText()
+                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse, priceType)
                 QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
                 operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
         except UnboundLocalError:
@@ -186,7 +209,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif varModel == self.model_3:
             refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("TEMPSP").getMultipleData(), 3))
         elif varModel == self.model_4:
-            refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database("SP").sortDescending("SP", "NR_KOD"), 4))
+            refresh_data.triggered.connect(self.setDocumentPreview)
         
         if varModel == self.model:
             add_to_invoice = menu.addAction("Add This To Invoice")
@@ -199,7 +222,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif varModel == self.model_4:
             show_this_invoice = menu.addAction("Show this invoice")
             show_this_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
-            show_this_invoice.triggered.connect(lambda : self.refreshTable(varModel.showInvoice(varTableView.currentIndex()), 4))
+            show_this_invoice.triggered.connect(lambda : self.refreshTable(varModel.showInvoice(varTableView.currentIndex(), self.setDocumentPreview()), 4))
         if varModel == self.model_4:
             pass
         else:
