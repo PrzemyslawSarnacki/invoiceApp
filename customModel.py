@@ -114,6 +114,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         try:
             self.layoutAboutToBeChanged.emit()
             if not order:
+                print("cip")
                 self.user_data = operationsMongo.Database(self.collection).sortDescending(self.collection, self.columns[Ncol])
             else:
                 self.user_data = operationsMongo.Database(self.collection).sortAscending(self.collection, self.columns[Ncol])
@@ -170,7 +171,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         print(invoiceCode)
         operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
         # print(operationsMongo.Database(self.collection).getSingleData(ObjectId(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])))
-        itemAndCountMultiplied = itemPrice*float(amountOfStuff)
+        itemAndCountMultiplied = itemPrice * float(amountOfStuff)
 
         return itemAndCountMultiplied
 

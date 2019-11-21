@@ -35,11 +35,11 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView.hideColumn(14)
         self.tableView.hideColumn(15)
         self.tableView.hideColumn(16)
-        # self.tableView.hideColumn(7)
         self.tableView_2.setModel(self.model_2)
         self.tableView_2.setItemDelegate(self.delegate)
         self.tableView_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_2.customContextMenuRequested.connect(lambda : self.context_menu(self.model_2, self.tableView_2))
+        self.tableView_2.hideColumn(0)
         # self.generateInvoiceButton.clicked.connect(lambda : print(j)))
         self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
         self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
@@ -69,7 +69,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
-
+        self.model_2.sort(1, False)
 
     def setDocumentPreview(self):
         if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
