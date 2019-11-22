@@ -36,6 +36,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView.hideColumn(14)
         self.tableView.hideColumn(15)
         self.tableView.hideColumn(16)
+
         self.tableView_2.setModel(self.model_2)
         self.tableView_2.setItemDelegate(self.delegate)
         self.tableView_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -44,6 +45,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         # self.generateInvoiceButton.clicked.connect(lambda : print(j)))
         self.user_data_3 = operationsMongo.Database("TEMPSP").getMultipleData()
         self.model_3 = customModel.CustomTableModel(self.user_data_3, "TEMPSP")
+        
         self.tableView_3.setModel(self.model_3)
         self.tableView_3.setItemDelegate(self.delegate)
         self.tableView_3.hideRow(0)
@@ -59,15 +61,24 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_4.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_4.customContextMenuRequested.connect(lambda: self.context_menu(self.model_4, self.tableView_4))
 
+        self.tableView_5.setModel(self.model_2)
+        self.tableView_5.setItemDelegate(self.delegate)
+        
+        self.tableView_6.setModel(self.model)
+        self.tableView_6.setItemDelegate(self.delegate)
+
         self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
+        
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "NAZWA"))
-        self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NAZWA_I"))
-        self.sortItemsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("ASOR").sortAscending("ASOR", "NAZWA")), 1))
-        self.sortClientsByNameButton.clicked.connect(lambda : self.openAddItemWindow())
-        self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
-        self.searchClientByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NR_KONTRAH"))
         self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
         self.searchItemByGroupButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "GRUPA"))
+        # self.searchItemsByCityButton.clicked.connect(self.openAddItemWindow)
+        
+        self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NAZWA_I"))
+        self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
+        self.searchClientByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NR_KONTRAH"))
+        self.searchClientsByCityButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "MIEJSC"))
+        
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))

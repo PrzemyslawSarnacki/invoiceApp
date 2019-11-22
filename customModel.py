@@ -154,22 +154,23 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         return list(data)
     
     
-    def addRowsToInvoice(self, position, invoice, amountOfStuff):
+    def addRowsToInvoice(self, position, invoice, amountOfStuff, tempList):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        # operationsMongo.Database(self.collection).addDataToInvoiceList(document_id, invoice,1)
         itemName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
         itemPrice = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
         itemCode = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOD"]) 
-        invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
-        print(invoiceCode)
-        operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
-        # print(operationsMongo.Database(self.collection).getSingleData(ObjectId(operationsMongo.Database("TEMPSP").getSingleLastData()["PREVID"])))
-        itemAndCountMultiplied = itemPrice * float(amountOfStuff)
-
+        if tempList == "TEMPSP":
+            invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
+        elif tempList == "TEMPKU":
+            invoiceCode = operationsMongo.Database("KU").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPKU").insertData({"NR_KOD":invoiceCode,"LP":1,"LEK":itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PODAT":23.0,"KONTO_KU":'',"UPUST":0.0,"JEST_VAT":"PRAWDA","PREVID":document_id})
+        
+        itemAndCountMultiplied = float(itemPrice) * float(amountOfStuff)
         return itemAndCountMultiplied
 
 

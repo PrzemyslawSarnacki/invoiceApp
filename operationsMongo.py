@@ -48,7 +48,10 @@ class Database:
     def getSingleData(self, document_id):
         data = self.collection.find_one({'_id': ObjectId(document_id)})
         return data
-    
+
+    def getSingleDataByKey(self, certainKey, value):
+        data = self.collection.find_one({certainKey: value})
+        return data
     
     def getSingleLastData(self):
         data = self.collection.find_one(sort=[('NR_KOD', pymongo.DESCENDING)])
@@ -95,23 +98,75 @@ class Database:
         ILOSC -= amountOfStuff
         print(ILOSC)
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
-        # document = self.collection.find_one({'_id': ObjectId(document_id)})
-        # print(document)
         generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":vatCondition,"PODAT":tax,"UPUST":discount})
-        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, document['NAZWA'], 500)
-        # generateInvoice.createInvoice(invoice)
+        return document.acknowledged
+
+    def subtractDataFromWarehouseWZ(self, document_id, invoice, listPosition, amountOfStuff=1):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        itemName = document["NAZWA"]
+        itemPrice = float(document["KOSZT"])
+        itemCode = document["KOD"]
+        invoiceCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
+        ILOSC = float(document['ILOSC'])
+        ILOSC -= amountOfStuff
+        document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        Database("WZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
         return document.acknowledged
     
-    def addDataToInvoiceList(self, document_id, invoice, amountOfStuff=1):
+    def addDataToWarehouse(self, document_id, invoice, listPosition, amountOfStuff=1):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        itemName = document["NAZWA"]
+        itemPrice = float(document["KOSZT"])
+        itemCode = document["KOD"]
+        invoiceCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
+        ILOSC = float(document['ILOSC'])
+        ILOSC += amountOfStuff
+        document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        Database("WZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
+        return document.acknowledged
+    
+    def createWZ(self, totalAmount, wzGenerationDate, wzNumber, wzType, warehouse, priceType,destination="super"):
+        wzCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
+        # yearlyNumber = int((((operationsMongo.Database("WZ").getSingleLastData()["NUMER"]).split("/"))[0]).strip("H"))
+        
+        if wzType == "H":
+            yearlyNumber = (Database("WZ").getSingleDataByKey("NR_KOD", wzCode))["NUMER"]
+            # yearlyNumber = 1 if wzGenerationDate.split(".")[1] == '01'else (Database("WZ").getSingleLastData()["NUMER"] + 1)
+        else:
+            yearlyNumber = 1
+
+        sourceString = wzType + yearlyNumber + "/1 - " + wzGenerationDate
+        Database("WZ").insertData({"NR_KOD":wzCode,"DATA":wzGenerationDate,"NUMER":yearlyNumber,"SKAD":sourceString,"DOKAD":destination,"WARTOSC":totalAmount,"R_CEN":priceType,"MAGAZYN":int(warehouse),"ZAT":"PRAWDA","NOP":1})
+    
+    def createPurchaseInvoice(self, totalAmount, invoiceGenerationDate, invoiceInflowDate, invoiceNumber, invoiceType, warehouse, priceType, paymentType):
+        invoiceCode = Database("KU").getSingleLastData()["NR_KOD"] + 1
+        # yearlyNumber = int((((operationsMongo.Database("WZ").getSingleLastData()["NUMER"]).split("/"))[0]).strip("H"))
+        
+        if wzType == "H":
+            yearlyNumber = (Database("WZ").getSingleDataByKey("NR_KOD", invoiceCode))["NUMER"]
+            # yearlyNumber = 1 if wzGenerationDate.split(".")[1] == '01'else (Database("WZ").getSingleLastData()["NUMER"] + 1)
+        else:
+            yearlyNumber = 1
+
+        sourceString = wzType + yearlyNumber + "/1 - " + wzGenerationDate
+        Database("KU").insertData({"NR_KOD":invoiceCode,"DATA":invoiceGenerationDate,"DATA_WPLYW":invoiceInflowDate,"NR_KSIEG":yearlyNumber,"NUMER":yearlyNumber,"PARTNER":clientName,"WARTOSC":totalAmount,"UPUST_PR":discount,"N_VAT":"","RODZ_PL":paymentType,"DATA_PL":invoicePaymentDate,"R_CEN":priceType,"MAGA":"PRAWDA","MAGAZYN":warehouse,"ZAT":"PRAWDA","UZGOD":"PRAWDA","NOP":1,"WALUTA":"PZL","KURS":0.0,"WARTOSCWAL":0.0,"WARTOSCTRA":0.0,"WARTOSCCLO":0.0,"WARTOSCPIM":0.0,"OPIS":'null'})
+
+
+    def addDataToInvoiceList(self, document_id, invoice, amountOfStuff, tempList):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
         itemName = document["NAZWA"]
         itemPrice = document["KOSZT"]
+        itemCode = document["NR_KOD"]
         ILOSC = float(document['ILOSC'])
         ILOSC -= amountOfStuff
-        myclient = pymongo.MongoClient('mongodb://localhost:27017')
-        myclient.mongotest.TEMPSP.insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":"0099","JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        if tempList == "TEMPSP":
+            Database("TEMPSP").insertData({"NR_KOD":649,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff*itemPrice,"KOD":itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0})
+        elif tempList == "TEMPKU":
+            Database("TEMPKU").insertData({"NR_KOD":1,"LP":1,"LEK":itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":amountOfStuff,"KOD":itemCode,"PODAT":23.0,"KONTO_KU":'',"UPUST":0.0,"JEST_VAT":"PRAWDA","PREVID":''})
         return True
 
     def clearTemporaryTableForInvoice(self):
@@ -120,7 +175,7 @@ class Database:
 
     def clearTemporaryTableForPurchaseInvoice(self):
         Database("TEMPKU").removeMultipleData()
-        Database("TEMPKU").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","PODAT":'',"KONTO_KU":'',"UPUST":'',"JEST_VAT":""})
+        Database("TEMPKU").insertData({"NR_KOD":1,"LP":'',"LEK":"","NUMER":'',"CENA":'',"ILOSC":'',"WARTOSC":'',"KOD":"","PODAT":'',"KONTO_KU":'',"UPUST":'',"JEST_VAT":"","PREVID":''})
     # search_this = "Aceton"
     # dbprice, dbname = searchForItem(search_this)
     # print(dbname)
