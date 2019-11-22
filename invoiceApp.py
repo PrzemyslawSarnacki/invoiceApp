@@ -83,6 +83,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_7.customContextMenuRequested.connect(lambda: self.context_menu(self.model_7, self.tableView_7))
 
         self.generateInvoiceButton.clicked.connect(self.generateInvoiceFinalAction)
+        self.generateInvoiceButton_2.clicked.connect(self.generatePurchaseInvoiceFinalAction)
         
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "NAZWA"))
         self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
@@ -189,7 +190,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         #                 self, "Błąd", "Wypełnij komórkę!")
         totalAmount = 0
         taxAmount = 0
-        finalInvoiceList = operationsMongo.Database("TEMPSP").getMultipleData()
+        finalInvoiceList = operationsMongo.Database("TEMPKU").getMultipleData()
         discount = self.discountSpinBox.value()
         print(discount)
         listPosition = 0
@@ -204,17 +205,17 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 discount = float(invoiceFinalItem["UPUST"])
             amountOfStuff = float((invoiceFinalItem)["ILOSC"])
             document_id = (invoiceFinalItem)["PREVID"]
-            ok = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition)
+            ok = operationsMongo.Database("ASOR").addDataToWarehouse(document_id, listPosition, amountOfStuff)
             totalAmount += amountOfStuff * (invoiceFinalItem["CENA"])
             taxAmount += 0 if tax == 0 else ((tax/100) * totalAmount)
         try:
             if ok:
-                paymentType = self.paymentComboBox.currentText()
-                invoiceGenerationDate = self.invoiceGenerationDateEdit.date().toString("dd.MM.yyyy")
-                invoicePaymentDate = self.invoicePaymentDateEdit.date().toString("dd.MM.yyyy")
-                invoiceInflowDate = self.invoiceSaleDateEdit_2.date().toString("dd.MM.yyyy")
-                invoiceNumber = self.invoiceNumberEdit.text()
-                invoiceType = self.invoiceTypeComboBox.currentText()
+                paymentType = self.paymentComboBox_2.currentText()
+                invoiceGenerationDate = self.invoiceGenerationDateEdit_2.date().toString("dd.MM.yyyy")
+                invoicePaymentDate = self.invoicePaymentDateEdit_2.date().toString("dd.MM.yyyy")
+                invoiceInflowDate = self.invoiceSaleDateEdit_3.date().toString("dd.MM.yyyy")
+                invoiceNumber = self.invoiceNumberEdit_2.text()
+                invoiceType = self.invoiceTypeComboBox_4.currentText()
                 warehouse = self.warehouseSelectComboBox_3.currentText()
                 priceType = self.priceTypeComboBox_2.currentText()
                 clientName = self.clientResultLabel_2.text()
@@ -226,7 +227,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                         self, "Błąd", "Wypełnij fakturę!")
 
     def getAmountOfStuff(self, varModel, varTableView):
-        if PythonMongoDB.invoice != None:
+        if PythonMongoDB.invoice != None or self.clientResultLabel_2 != "Not selected yet":
             amountOfStuff, ok = QtWidgets.QInputDialog.getDouble(self, 'Wprowadz dane', 'Wprowadz dane')
             if ok:
                 QtWidgets.QMessageBox.information(self, "Ok", "Ok!")
@@ -234,7 +235,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                     tempList = "TEMPSP"
                 elif varModel == self.model_6:
                     tempList = "TEMPKU"
-                itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), PythonMongoDB.invoice, amountOfStuff, tempList)
+                itemAndCountMultiplied = varModel.addRowsToInvoice(varTableView.currentIndex(), amountOfStuff, tempList)
                 PythonMongoDB.nettoAmount += itemAndCountMultiplied 
                 PythonMongoDB.totalAmount += (itemAndCountMultiplied + (itemAndCountMultiplied * 0.23))
                 if tempList == "TEMPSP":

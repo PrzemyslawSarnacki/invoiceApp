@@ -154,7 +154,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         return list(data)
     
     
-    def addRowsToInvoice(self, position, invoice, amountOfStuff, tempList):
+    def addRowsToInvoice(self, position, amountOfStuff, tempList):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)

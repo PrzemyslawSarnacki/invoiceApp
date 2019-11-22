@@ -115,7 +115,7 @@ class Database:
         Database("WZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
         return document.acknowledged
     
-    def addDataToWarehouse(self, document_id, invoice, listPosition, amountOfStuff=1):
+    def addDataToWarehouse(self, document_id, listPosition, amountOfStuff=1):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
         itemName = document["NAZWA"]
         itemPrice = float(document["KOSZT"])
