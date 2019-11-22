@@ -114,11 +114,9 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         try:
             self.layoutAboutToBeChanged.emit()
             if not order:
-                print("cip")
-                self.user_data = operationsMongo.Database(self.collection).sortDescending(self.collection, self.columns[Ncol])
-            else:
                 self.user_data = operationsMongo.Database(self.collection).sortAscending(self.collection, self.columns[Ncol])
-            # self.user_data = self.user_data.sort_values(self.columns[Ncol], ascending=not order)
+            else:
+                self.user_data = operationsMongo.Database(self.collection).sortDescending(self.collection, self.columns[Ncol])
             self.layoutChanged.emit()
         except Exception as e:
             print(e)
@@ -144,7 +142,6 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         clientName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA_I"])
         clientAddress = str(operationsMongo.Database(self.collection).getSingleData(document_id)["MIEJSC"]) + ' ' +str(operationsMongo.Database(self.collection).getSingleData(document_id)["ADRES"])
         clientContact = (operationsMongo.Database(self.collection).getSingleData(document_id)["TELEFONY"])
-        print(clientName, clientAddress, clientContact) 
         return clientName, clientAddress, clientContact
     
     def showInvoice(self, position, collumnType):

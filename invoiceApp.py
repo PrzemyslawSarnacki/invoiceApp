@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from view import tryui
+from view import ItemDialog
 import operationsMongo
 import generateInvoice
 import customModel
@@ -62,14 +63,20 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.searchForItemButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "NAZWA"))
         self.searchForClientButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NAZWA_I"))
         self.sortItemsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("ASOR").sortAscending("ASOR", "NAZWA")), 1))
-        self.sortClientsByNameButton.clicked.connect(lambda : self.refreshTable((operationsMongo.Database("KONTRAH").sortAscending("KONTRAH", "NAZWA_I")), 2))
+        self.sortClientsByNameButton.clicked.connect(lambda : self.openAddItemWindow())
         self.searchClientsByNIPButton.clicked.connect(lambda : self.searchClientByName(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "REJESTR"))
         self.searchClientByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model_2, self.tableView_2, self.user_data_2, "KONTRAH", "NR_KONTRAH"))
         self.searchItemByCodeButton.clicked.connect(lambda : self.searchItemByCode(self.model, self.tableView, self.user_data, "ASOR", "KOD"))
+        self.searchItemByGroupButton.clicked.connect(lambda : self.searchItemByName(self.model, self.tableView, self.user_data, "ASOR", "GRUPA"))
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
-        self.model_2.sort(1, False)
+
+    def openAddItemWindow(self):
+        self.window = QtWidgets.QDialog()
+        self.ui = ItemDialog.Ui_ItemDialog()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
     def setDocumentPreview(self):
         if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
@@ -80,6 +87,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             halfOfCollectionName = "PZ"
         elif self.documentsTypeComboBox.currentText() == "WZ":
             halfOfCollectionName = "WZ"
+        elif self.documentsTypeComboBox.currentText() == "RW":
+            halfOfCollectionName = "RW"
         elif self.documentsTypeComboBox.currentText() == "MM":
             halfOfCollectionName = "MM"
         elif self.documentsTypeComboBox.currentText() == "Settlement":
