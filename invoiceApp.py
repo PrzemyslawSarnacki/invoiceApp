@@ -107,6 +107,10 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         
         self.invoiceGenerationDateEdit.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit.setDate(datetime.datetime.now())
+        self.invoiceSaleDateEdit_2.setDate(datetime.datetime.now())
+        self.invoiceGenerationDateEdit_2.setDate(datetime.datetime.now())
+        self.invoicePaymentDateEdit_2.setDate(datetime.datetime.now())
+        self.invoiceSaleDateEdit_3.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
 
     def openAddItemWindow(self):

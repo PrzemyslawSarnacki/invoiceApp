@@ -280,8 +280,9 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
+        self.gridLayout_16 = QtWidgets.QGridLayout(self.tab_4)
+        self.gridLayout_16.setObjectName("gridLayout_16")
         self.frame_2 = QtWidgets.QFrame(self.tab_4)
-        self.frame_2.setGeometry(QtCore.QRect(0, 0, 808, 649))
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
@@ -471,6 +472,7 @@ class Ui_MainWindow(object):
         self.paymentLabel_2.setGeometry(QtCore.QRect(148, 234, 45, 16))
         self.paymentLabel_2.setObjectName("paymentLabel_2")
         self.gridLayout_9.addWidget(self.frame_9, 8, 0, 1, 1)
+        self.gridLayout_16.addWidget(self.frame_2, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_4, "")
         self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
         self.gridLayout_6.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -488,7 +490,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(3)
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

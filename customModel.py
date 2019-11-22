@@ -169,6 +169,12 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         elif tempList == "TEMPKU":
             invoiceCode = operationsMongo.Database("KU").getSingleLastData()["NR_KOD"] + 1
             operationsMongo.Database("TEMPKU").insertData({"NR_KOD":invoiceCode,"LP":1,"LEK":itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PODAT":23.0,"KONTO_KU":'',"UPUST":0.0,"JEST_VAT":"PRAWDA","PREVID":document_id})
+        elif tempList == "TEMPWZ":
+            invoiceCode = operationsMongo.Database("WZ").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPWZ").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PREVID":document_id})
+        elif tempList == "TEMPPZ":
+            invoiceCode = operationsMongo.Database("PZ").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPPZ").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PREVID":document_id})
         
         itemAndCountMultiplied = float(itemPrice) * float(amountOfStuff)
         return itemAndCountMultiplied

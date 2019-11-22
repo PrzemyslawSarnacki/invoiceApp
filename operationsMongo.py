@@ -100,6 +100,7 @@ class Database:
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":vatCondition,"PODAT":tax,"UPUST":discount})
+        Database("KARTA1").insertData({"STR_DZIENN":'',"DATA":'',"NR_DOWODU":"PZ 1\/1","TRESC":"NUMER - " + invoice.client.summary,"CENA_JEDN":itemPrice,"IL_PRZYCH":0.0,"IL_ROZCH":amountOfStuff,"IL_ZAPAS":ILOSC,"WR_PRZYCH":0.0,"WR_ROZCH":float(amountOfStuff)*float(itemPrice),"WR_ZAPAS":float(ILOSC)*float(itemPrice),"KOD":itemCode,"ZNACZNIK":''})
         return document.acknowledged
 
     def subtractDataFromWarehouseWZ(self, document_id, invoice, listPosition, amountOfStuff=1):
@@ -108,11 +109,26 @@ class Database:
         itemPrice = float(document["KOSZT"])
         itemCode = document["KOD"]
         invoiceCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
+        invoiceNumber = Database("WZ").getSingleLastData()["NUMER"] + 1
         ILOSC = float(document['ILOSC'])
         ILOSC -= amountOfStuff
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
         Database("WZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
+        Database("KARTA1").insertData({"STR_DZIENN":'',"DATA":'',"NR_DOWODU":"WZ_" + invoiceNumber + "/1","TRESC":"NUMER - " + invoice.client.summary,"CENA_JEDN":itemPrice,"IL_PRZYCH":0.0,"IL_ROZCH":amountOfStuff,"IL_ZAPAS":ILOSC,"WR_PRZYCH":0.0,"WR_ROZCH":float(amountOfStuff)*float(itemPrice),"WR_ZAPAS":float(ILOSC)*float(itemPrice),"KOD":itemCode,"ZNACZNIK":''})
+        return document.acknowledged
+    
+    def subtractDataFromWarehousePZ(self, document_id, invoice, listPosition, amountOfStuff=1):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        itemName = document["NAZWA"]
+        itemPrice = float(document["KOSZT"])
+        itemCode = document["KOD"]
+        invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
+        ILOSC = float(document['ILOSC'])
+        ILOSC -= amountOfStuff
+        document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        Database("PZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
         return document.acknowledged
     
     def addDataToWarehouse(self, document_id, listPosition, amountOfStuff=1):
@@ -120,12 +136,12 @@ class Database:
         itemName = document["NAZWA"]
         itemPrice = float(document["KOSZT"])
         itemCode = document["KOD"]
-        invoiceCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
+        invoiceCode = Database("KU").getSingleLastData()["NR_KOD"] + 1
         ILOSC = float(document['ILOSC'])
         ILOSC += amountOfStuff
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
-        Database("WZZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
+        Database("KUZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode})
         return document.acknowledged
     
     def createWZ(self, totalAmount, wzGenerationDate, wzNumber, wzType, warehouse, priceType,destination="super"):
