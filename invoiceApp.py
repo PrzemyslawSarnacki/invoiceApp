@@ -4,9 +4,11 @@ from view import ItemDialog
 import operationsMongo
 import generateInvoice
 import customModel
+import qdarkstyle, os, sys
 import icons_rc
 import datetime
 
+darkStyle = False
 
 class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
@@ -503,6 +505,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     app.setStyle("Fusion")
+    if darkStyle:
+        app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     my_app = PythonMongoDB()
     my_app.show()
     app.exec_()

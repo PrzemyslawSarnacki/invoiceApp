@@ -14,6 +14,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(852, 754)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("images/app.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setEnabled(True)
         self.centralwidget.setMinimumSize(QtCore.QSize(0, 0))
@@ -521,7 +524,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "invoiceApp"))
         self.clientLabel.setText(_translate("MainWindow", "Client:"))
         self.clientResultLabel.setText(_translate("MainWindow", "Not selected yet"))
         self.searchForClientButton.setText(_translate("MainWindow", "Search by Name"))
@@ -581,8 +584,8 @@ class Ui_MainWindow(object):
         self.documentsTypeComboBox.setItemText(5, _translate("MainWindow", "MM"))
         self.documentsTypeComboBox.setItemText(6, _translate("MainWindow", "RW"))
         self.documentsTypeComboBox.setItemText(7, _translate("MainWindow", "Settlement"))
-        self.documentsTypeComboBox.setItemText(8, _translate("MainWindow", "Warehouse Cards"))
-        self.documentsTypeComboBox.setItemText(9, _translate("MainWindow", "New Item"))
+        self.documentsTypeComboBox.setItemText(8, _translate("MainWindow", "Warehouse Card 1"))
+        self.documentsTypeComboBox.setItemText(9, _translate("MainWindow", "Warehouse Card 2"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Show Invoices"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "WZ"))
         self.clientLabel_2.setText(_translate("MainWindow", "Client:"))
