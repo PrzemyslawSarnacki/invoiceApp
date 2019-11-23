@@ -56,7 +56,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <property name="movable">
          <bool>true</bool>
@@ -1036,7 +1036,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>54</y>
+                  <y>96</y>
                   <width>32</width>
                   <height>16</height>
                  </rect>
@@ -1049,7 +1049,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>73</y>
+                  <y>115</y>
                   <width>37</width>
                   <height>20</height>
                  </rect>
@@ -1059,7 +1059,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>99</y>
+                  <y>141</y>
                   <width>89</width>
                   <height>16</height>
                  </rect>
@@ -1072,7 +1072,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>118</y>
+                  <y>160</y>
                   <width>81</width>
                   <height>20</height>
                  </rect>
@@ -1082,7 +1082,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>144</y>
+                  <y>186</y>
                   <width>73</width>
                   <height>16</height>
                  </rect>
@@ -1095,7 +1095,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>163</y>
+                  <y>205</y>
                   <width>81</width>
                   <height>20</height>
                  </rect>
@@ -1135,7 +1135,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>189</y>
+                  <y>231</y>
                   <width>79</width>
                   <height>16</height>
                  </rect>
@@ -1148,7 +1148,7 @@
                 <property name="geometry">
                  <rect>
                   <x>9</x>
-                  <y>208</y>
+                  <y>250</y>
                   <width>81</width>
                   <height>20</height>
                  </rect>
@@ -1377,6 +1377,75 @@
                 </property>
                 <property name="text">
                  <string>Płatność:</string>
+                </property>
+               </widget>
+               <widget class="QSpinBox" name="accountingNumberSpinBox_2">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>69</y>
+                  <width>37</width>
+                  <height>20</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QLabel" name="discountLabel_4">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>50</y>
+                  <width>71</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Nr księgowy:</string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="sourceEdit">
+                <property name="geometry">
+                 <rect>
+                  <x>260</x>
+                  <y>29</y>
+                  <width>91</width>
+                  <height>20</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QLabel" name="sourceLabel">
+                <property name="geometry">
+                 <rect>
+                  <x>260</x>
+                  <y>10</y>
+                  <width>55</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Skąd:</string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="destinationEdit">
+                <property name="geometry">
+                 <rect>
+                  <x>260</x>
+                  <y>69</y>
+                  <width>91</width>
+                  <height>20</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QLabel" name="destinationLabel">
+                <property name="geometry">
+                 <rect>
+                  <x>260</x>
+                  <y>50</y>
+                  <width>55</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Dokąd:</string>
                 </property>
                </widget>
               </widget>

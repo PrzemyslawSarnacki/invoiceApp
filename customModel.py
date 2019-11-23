@@ -8,6 +8,7 @@ import generateInvoice
 import operator
 import pandas
 
+
 class CustomTableModel(QtCore.QAbstractTableModel):
     def __init__(self, data, collectionName):
         QtCore.QAbstractTableModel.__init__(self)
@@ -94,7 +95,8 @@ class CustomTableModel(QtCore.QAbstractTableModel):
             selected_column = self.columns[index.column()]
             selected_row[selected_column] = value
             self.dataChanged.emit(index, index, (QtCore.Qt.DisplayRole, ))
-            ok = operationsMongo.Database(self.collection).updateData(selected_row['_id'], selected_row)
+            ok = operationsMongo.Database(self.collection).updateData(
+                selected_row['_id'], selected_row)
             if ok:
                 return True
         return False
@@ -102,21 +104,25 @@ class CustomTableModel(QtCore.QAbstractTableModel):
     def insertRows(self):
         row_count = len(self.user_data)
         self.beginInsertRows(QtCore.QModelIndex(), row_count, row_count)
-        empty_data = { key: None for key in self.columns if not key=='_id'}
-        document_id = operationsMongo.Database(self.collection).insertData(empty_data)
-        new_data = operationsMongo.Database(self.collection).getSingleData(document_id)
+        empty_data = {key: None for key in self.columns if not key == '_id'}
+        document_id = operationsMongo.Database(
+            self.collection).insertData(empty_data)
+        new_data = operationsMongo.Database(
+            self.collection).getSingleData(document_id)
         self.user_data.append(new_data)
         row_count += 1
         self.endInsertRows()
         return True
-    
+
     def sort(self, Ncol, order):
         try:
             self.layoutAboutToBeChanged.emit()
             if not order:
-                self.user_data = operationsMongo.Database(self.collection).sortAscending(self.collection, self.columns[Ncol])
+                self.user_data = operationsMongo.Database(
+                    self.collection).sortAscending(self.collection, self.columns[Ncol])
             else:
-                self.user_data = operationsMongo.Database(self.collection).sortDescending(self.collection, self.columns[Ncol])
+                self.user_data = operationsMongo.Database(
+                    self.collection).sortDescending(self.collection, self.columns[Ncol])
             self.layoutChanged.emit()
         except Exception as e:
             print(e)
@@ -131,51 +137,64 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         self.user_data.pop(row_id)
         self.endRemoveRows()
         return True
-    
-    
+
     def setClientForInvoice(self, position):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        clientName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA_I"])
-        clientAddress = str(operationsMongo.Database(self.collection).getSingleData(document_id)["MIEJSC"]) + ' ' +str(operationsMongo.Database(self.collection).getSingleData(document_id)["ADRES"])
-        clientContact = (operationsMongo.Database(self.collection).getSingleData(document_id)["TELEFONY"])
+        clientName = (operationsMongo.Database(
+            self.collection).getSingleData(document_id)["NAZWA_I"])
+        clientAddress = str(operationsMongo.Database(self.collection).getSingleData(document_id)[
+                            "MIEJSC"]) + ' ' + str(operationsMongo.Database(self.collection).getSingleData(document_id)["ADRES"])
+        clientContact = (operationsMongo.Database(
+            self.collection).getSingleData(document_id)["TELEFONY"])
         return clientName, clientAddress, clientContact
-    
+
     def showInvoice(self, position, collumnType):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['NR_KOD']
-        data = operationsMongo.Database(collumnType + "ZAW").searchByNumer(document_id, (collumnType + "ZAW"), "NR_KOD")
+        data = operationsMongo.Database(
+            collumnType + "ZAW").searchByNumer(document_id, (collumnType + "ZAW"), "NR_KOD")
         return list(data)
-    
-    
+
     def addRowsToInvoice(self, position, amountOfStuff, tempList):
         row_count = self.rowCount()
         row_count -= 1
         self.beginRemoveRows(QtCore.QModelIndex(), row_count, row_count)
         row_id = position.row()
         document_id = self.user_data[row_id]['_id']
-        itemName = (operationsMongo.Database(self.collection).getSingleData(document_id)["NAZWA"])
-        itemPrice = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOSZT"])
-        itemCode = (operationsMongo.Database(self.collection).getSingleData(document_id)["KOD"]) 
+        itemName = (operationsMongo.Database(
+            self.collection).getSingleData(document_id)["NAZWA"])
+        itemPrice = (operationsMongo.Database(
+            self.collection).getSingleData(document_id)["KOSZT"])
+        itemCode = (operationsMongo.Database(
+            self.collection).getSingleData(document_id)["KOD"])
         if tempList == "TEMPSP":
-            invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
-            operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD": itemCode,"JEST_VAT":"PRAWDA","PODAT":23.0,"UPUST":0.0,"PREVID":document_id })
+            invoiceCode = operationsMongo.Database(
+                "SP").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPSP").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "NUMER": 'null', "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
+                amountOfStuff)*float(itemPrice), "KOD": itemCode, "JEST_VAT": "PRAWDA", "PODAT": 23.0, "UPUST": 0.0, "PREVID": document_id})
         elif tempList == "TEMPKU":
-            invoiceCode = operationsMongo.Database("KU").getSingleLastData()["NR_KOD"] + 1
-            operationsMongo.Database("TEMPKU").insertData({"NR_KOD":invoiceCode,"LP":1,"LEK":itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PODAT":23.0,"KONTO_KU":'',"UPUST":0.0,"JEST_VAT":"PRAWDA","PREVID":document_id})
+            invoiceCode = operationsMongo.Database(
+                "KU").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPKU").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "NUMER": 'null', "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
+                amountOfStuff)*float(itemPrice), "KOD": itemCode, "PODAT": 23.0, "KONTO_KU": '', "UPUST": 0.0, "JEST_VAT": "PRAWDA", "PREVID": document_id})
         elif tempList == "TEMPWZ":
-            invoiceCode = operationsMongo.Database("WZ").getSingleLastData()["NR_KOD"] + 1
-            operationsMongo.Database("TEMPWZ").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PREVID":document_id})
+            invoiceCode = operationsMongo.Database(
+                "WZ").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPWZ").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
+                amountOfStuff)*float(itemPrice), "KOD": itemCode, "PREVID": document_id})
         elif tempList == "TEMPPZ":
-            invoiceCode = operationsMongo.Database("PZ").getSingleLastData()["NR_KOD"] + 1
-            operationsMongo.Database("TEMPPZ").insertData({"NR_KOD": invoiceCode,"LP":1,"LEK": itemName,"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"PREVID":document_id})
-        
+            invoiceCode = operationsMongo.Database(
+                "PZ").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPPZ").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
+                amountOfStuff)*float(itemPrice), "KOD": itemCode, "PREVID": document_id})
+
         itemAndCountMultiplied = float(itemPrice) * float(amountOfStuff)
         return itemAndCountMultiplied
 
@@ -184,6 +203,7 @@ class ProfilePictureDelegate(QtWidgets.QStyledItemDelegate):
     """
     This will open QFileDialog to select image
     """
+
     def __init__(self):
         QtWidgets.QStyledItemDelegate.__init__(self)
 
@@ -192,7 +212,7 @@ class ProfilePictureDelegate(QtWidgets.QStyledItemDelegate):
         return editor
 
     def setModelData(self, editor, model, index):
-        selected_file =editor.selectedFiles()[0]
+        selected_file = editor.selectedFiles()[0]
         image = open(selected_file, 'rb').read()
         model.setData(index, image)
 
@@ -206,5 +226,6 @@ class InLineEditDelegate(QtWidgets.QItemDelegate):
         return super(InLineEditDelegate, self).createEditor(parent, option, index)
 
     def setEditorData(self, editor, index):
-        text = index.data(QtCore.Qt.EditRole) or index.data(QtCore.Qt.DisplayRole)
+        text = index.data(QtCore.Qt.EditRole) or index.data(
+            QtCore.Qt.DisplayRole)
         editor.setText(str(text))
