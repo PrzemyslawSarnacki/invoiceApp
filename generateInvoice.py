@@ -32,7 +32,7 @@ def createInvoice(invoice, totalAmount, paymentType, invoiceGenerationDate, invo
     invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
     warehouseDocumentCode = operationsMongo.Database("SP").getSingleLastData()["NR_DOK_MG"] + 1
     invoice.number = invoiceNumber
-    yearlyNumber = 1 if invoiceGenerationDate.split(".")[1] == '01'else (operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
+    yearlyNumber = (operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
     # print(invoice.client.summary)
     operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":invoiceType,"DATA":invoiceGenerationDate,"NUMER":yearlyNumber,"MAGAZYN":int(warehouse),"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":discount,"RODZ_PL":paymentType,"UWAGI_PL":'',"DATA_PL":invoicePaymentDate,"R_CEN":priceType,"MAGA":"PRAWDA","PODAT_WR": taxAmount,"DATA_SPRZ":invoiceSaleDate,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":warehouseDocumentCode,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'PZL',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
     # operationsMongo.Database("WZ").insertData({"NR_KOD":wzCode,"DATA":wzGenerationDate,"NUMER":yearlyNumber,"SKAD":sourceString,"DOKAD":destination,"WARTOSC":totalAmount,"R_CEN":priceType,"MAGAZYN":int(warehouse),"ZAT":"PRAWDA","NOP":1})

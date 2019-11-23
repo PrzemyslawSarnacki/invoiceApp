@@ -112,6 +112,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.invoicePaymentDateEdit_2.setDate(datetime.datetime.now())
         self.invoiceSaleDateEdit_3.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
+        self.invoiceTypeComboBox.currentTextChanged.connect(self.setInvoiceNumberLine)
 
     def openAddItemWindow(self):
         self.window = QtWidgets.QDialog()
@@ -137,6 +138,14 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif self.documentsTypeComboBox.currentText() == "Warehouse Cards":
             halfOfCollectionName = "KARTA2"
         return halfOfCollectionName
+    
+    def setInvoiceNumberLine(self):
+        if self.invoiceTypeComboBox.currentText() == "Hurtowa":
+            numberString = "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1"
+            self.invoiceNumberEdit.setText(numberString)
+        elif self.invoiceTypeComboBox.currentText() == "PW":
+            numberString = "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1"
+            self.invoiceNumberEdit.setText(numberString)
         
     def setClient(self, varModel, varTableView):
         clientName, clientAddress, clientContact = varModel.setClientForInvoice(varTableView.currentIndex())
