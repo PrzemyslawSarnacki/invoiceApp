@@ -25,17 +25,16 @@ def setClient(clientName, clientAddress, clientPostCode, clientAdditionalData):
 def addItemToInvoice(invoice, dbItemCount, dbItemName, dbItemPrice):
     invoice.add_item(Item(dbItemCount, dbItemPrice, description=dbItemName, tax=23))
 
-def createInvoice(invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse, priceType):
+def createInvoice(invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse, priceType, accountingNumber):
     pdf = SimpleInvoice(invoice)
     currentDate = datetime.datetime.now().strftime("%H.%M %d-%m-%y")
     pdf.gen("faktura " + str(currentDate) + ".pdf", generate_qr_code=True)
     invoiceCode = operationsMongo.Database("SP").getSingleLastData()["NR_KOD"] + 1
-    warehouseDocumentCode = operationsMongo.Database("SP").getSingleLastData()["NR_DOK_MG"] + 1
+    warehouseDocumentCode = operationsMongo.Database("WZ").getSingleLastData()["NR_KOD"] + 1
     invoice.number = invoiceNumber
-    yearlyNumber = (operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
     # print(invoice.client.summary)
-    operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":invoiceType,"DATA":invoiceGenerationDate,"NUMER":yearlyNumber,"MAGAZYN":int(warehouse),"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":discount,"RODZ_PL":paymentType,"UWAGI_PL":'',"DATA_PL":invoicePaymentDate,"R_CEN":priceType,"MAGA":"PRAWDA","PODAT_WR": taxAmount,"DATA_SPRZ":invoiceSaleDate,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":warehouseDocumentCode,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'PZL',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
-    # operationsMongo.Database("WZ").insertData({"NR_KOD":wzCode,"DATA":wzGenerationDate,"NUMER":yearlyNumber,"SKAD":sourceString,"DOKAD":destination,"WARTOSC":totalAmount,"R_CEN":priceType,"MAGAZYN":int(warehouse),"ZAT":"PRAWDA","NOP":1})
+    operationsMongo.Database("SP").insertData({"NR_KOD":invoiceCode,"TYP_FS":invoiceType,"DATA":invoiceGenerationDate,"NUMER":accountingNumber,"MAGAZYN":int(warehouse),"PARTNER":invoice.client.summary,"WARTOSC":totalAmount,"UPUST":discount,"RODZ_PL":paymentType,"UWAGI_PL":'',"DATA_PL":invoicePaymentDate,"R_CEN":priceType,"MAGA":"PRAWDA","PODAT_WR": taxAmount,"DATA_SPRZ":invoiceSaleDate,"ZAT":"PRAWDA","NOP":1,"NR_DOK_MG":warehouseDocumentCode,"TYP_DOK_MG":"WZ","WAR_DOK_MG":689.0,"POMOCNICZE":"11","WALUTA":'PZL',"KURS":0.0,"WARTOSCWAL":'null',"TEKSTNUMER":'null'})
+    operationsMongo.Database("WZ").insertData({"NR_KOD":warehouseDocumentCode,"DATA":invoiceGenerationDate,"NUMER":accountingNumber,"SKAD":invoiceNumber + " - " + invoiceGenerationDate,"DOKAD":invoice.client.summary,"WARTOSC":totalAmount,"R_CEN":priceType,"MAGAZYN":int(warehouse),"ZAT":"PRAWDA","NOP":1})
     
 # 
 # This is part for Purchase Invoice creation

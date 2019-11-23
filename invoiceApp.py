@@ -142,22 +142,22 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     
     def setInvoiceNumberLine(self):
         if self.invoiceTypeComboBox.currentText() == "Hurtowa":
-            number = (operationsMongo.Database("SP").searchForItem("H", "SP", "TYP_FS"))[-1]["NUMER"]
+            number = (operationsMongo.Database("SP").searchForItem("H", "SP", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "H" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Paragon":
-            number = (operationsMongo.Database("SP").searchForItem("P", "SP", "TYP_FS"))[-1]["NUMER"]
+            number = (operationsMongo.Database("SP").searchForItem("P", "SP", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "P" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Kupna":
-            number = (operationsMongo.Database("SP").searchForItem("K", "SP", "TYP_FS"))[-1]["NUMER"]
+            number = (operationsMongo.Database("SP").searchForItem("K", "SP", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "K" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Detaliczna":
-            number = (operationsMongo.Database("SP").searchForItem("D", "SP", "TYP_FS"))[-1]["NUMER"]
+            number = (operationsMongo.Database("SP").searchForItem("D", "SP", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "D" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
@@ -192,7 +192,9 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 discount = float(invoiceFinalItem["UPUST"])
             amountOfStuff = float((invoiceFinalItem)["ILOSC"])
             document_id = (invoiceFinalItem)["PREVID"]
-            ok = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition)
+            invoiceGenerationDate = self.invoiceGenerationDateEdit.date().toString("dd.MM.yyyy")
+            invoiceNumber = self.invoiceNumberEdit.text()
+            ok = operationsMongo.Database("ASOR").subtractDataFromWarehouse(document_id, PythonMongoDB.invoice, listPosition, amountOfStuff, tax, discount, vatCondition, invoiceGenerationDate, invoiceNumber)
             totalAmount += amountOfStuff * (invoiceFinalItem["CENA"])
             taxAmount += 0 if tax == 0 else ((tax/100) * totalAmount)
         try:
@@ -202,10 +204,11 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 invoicePaymentDate = self.invoicePaymentDateEdit.date().toString("dd.MM.yyyy")
                 invoiceSaleDate = self.invoiceSaleDateEdit_2.date().toString("dd.MM.yyyy")
                 invoiceNumber = self.invoiceNumberEdit.text()
+                accountingNumber = self.accountingNumberSpinBox.value() 
                 invoiceType = self.invoiceTypeComboBox.currentText()
                 warehouse = self.warehouseSelectComboBox_3.currentText()
                 priceType = self.priceTypeComboBox.currentText()
-                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse, priceType)
+                generateInvoice.createInvoice(PythonMongoDB.invoice, totalAmount, paymentType, invoiceGenerationDate, invoicePaymentDate, invoiceSaleDate, invoiceNumber, discount, tax, invoiceType, taxAmount, warehouse, priceType, accountingNumber)
                 QtWidgets.QMessageBox.information(self, "Ok", "Invoice Created!")
                 operationsMongo.Database("TEMPSP").clearTemporaryTableForInvoice()
         except UnboundLocalError:

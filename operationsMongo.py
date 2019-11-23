@@ -83,7 +83,7 @@ class Database:
         return document.acknowledged
 
 
-    def subtractDataFromWarehouse(self, document_id, invoice, listPosition, amountOfStuff=1, tax=23.0, discount=0, vatCondition="PRAWDA"):
+    def subtractDataFromWarehouse(self, document_id, invoice, listPosition, amountOfStuff=1, tax=23.0, discount=0, vatCondition="PRAWDA", invoiceGenerationDate="", invoiceNumber=""):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
         # print(document)
         itemName = document["NAZWA"]
@@ -99,8 +99,11 @@ class Database:
         print(ILOSC)
         document = self.collection.update_one({'_id': ObjectId(document_id)},{'$set' : {'ILOSC': ILOSC}})
         generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        warehouseDocumentCode = Database("WZ").getSingleLastData()["NUMER"] + 1
+
         Database("SPZAW").insertData({"NR_KOD": invoiceCode,"LP":listPosition,"LEK": itemName,"NUMER":'null',"CENA":itemPrice,"ILOSC":amountOfStuff,"WARTOSC":float(amountOfStuff)*float(itemPrice),"KOD":itemCode,"JEST_VAT":vatCondition,"PODAT":tax,"UPUST":discount})
-        Database("KARTA1").insertData({"STR_DZIENN":'',"DATA":'',"NR_DOWODU":"PZ 1\/1","TRESC":"NUMER - " + invoice.client.summary,"CENA_JEDN":itemPrice,"IL_PRZYCH":0.0,"IL_ROZCH":amountOfStuff,"IL_ZAPAS":ILOSC,"WR_PRZYCH":0.0,"WR_ROZCH":float(amountOfStuff)*float(itemPrice),"WR_ZAPAS":float(ILOSC)*float(itemPrice),"KOD":itemCode,"ZNACZNIK":''})
+
+        Database("KARTA1").insertData({"STR_DZIENN":'',"DATA":invoiceGenerationDate,"NR_DOWODU":"WZ_" + warehouseDocumentCode + "/1","TRESC":invoiceNumber + " - " + invoice.client.summary,"CENA_JEDN":itemPrice,"IL_PRZYCH":0.0,"IL_ROZCH":amountOfStuff,"IL_ZAPAS":ILOSC,"WR_PRZYCH":0.0,"WR_ROZCH":float(amountOfStuff)*float(itemPrice),"WR_ZAPAS":float(ILOSC)*float(itemPrice),"KOD":itemCode,"ZNACZNIK":''})
         return document.acknowledged
 
     def subtractDataFromWarehouseWZ(self, document_id, invoice, listPosition, amountOfStuff=1):
