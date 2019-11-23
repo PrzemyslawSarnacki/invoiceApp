@@ -182,11 +182,11 @@ class Database:
         Database("WZ").insertData({"NR_KOD": wzCode, "DATA": wzGenerationDate, "NUMER": yearlyNumber, "SKAD": sourceString,
                                    "DOKAD": destination, "WARTOSC": totalAmount, "R_CEN": priceType, "MAGAZYN": int(warehouse), "ZAT": "PRAWDA", "NOP": 1})
 
-    def createPurchaseInvoice(self, totalAmount, clientName, invoiceGenerationDate, invoiceInflowDate, discount, invoicePaymentDate, invoiceNumber, invoiceType, warehouse, priceType, paymentType, accountingNumber, source, destination):
+    def createPurchaseInvoice(self, totalAmount, clientName, invoiceGenerationDate, invoiceInflowDate, discount, invoicePaymentDate, invoiceNumber, invoiceType, warehouse, priceType, paymentType, accountingNumber, source, destination, taxAmount):
         invoiceCode = Database("KU").getSingleLastData()["NR_KOD"] + 1
         # yearlyNumber = int((((operationsMongo.Database("WZ").getSingleLastData()["NUMER"]).split("/"))[0]).strip("H"))
 
-        Database("KU").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "DATA_WPLYW": invoiceInflowDate, "NR_KSIEG": accountingNumber, "NUMER": invoiceNumber, "PARTNER": clientName, "WARTOSC": totalAmount, "UPUST_PR": discount, "N_VAT": "", "RODZ_PL": paymentType,
+        Database("KU").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "DATA_WPLYW": invoiceInflowDate, "NR_KSIEG": accountingNumber, "NUMER": invoiceNumber, "PARTNER": clientName, "WARTOSC": totalAmount, "UPUST_PR": discount, "N_VAT": taxAmount, "RODZ_PL": paymentType,
                                    "DATA_PL": invoicePaymentDate, "R_CEN": priceType, "MAGA": "PRAWDA", "MAGAZYN": warehouse, "ZAT": "PRAWDA", "UZGOD": "PRAWDA", "NOP": 1, "WALUTA": "PZL", "KURS": 0.0, "WARTOSCWAL": 0.0, "WARTOSCTRA": 0.0, "WARTOSCCLO": 0.0, "WARTOSCPIM": 0.0, "OPIS": 'null'})
         invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
         Database("PZ").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "NUMER": accountingNumber, "SKAD": source,

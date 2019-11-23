@@ -301,7 +301,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 source = self.sourceEdit.text()
                 destination = self.destinationEdit.text()
                 operationsMongo.Database("KU").createPurchaseInvoice(totalAmount, clientName, invoiceGenerationDate, invoiceInflowDate, discount,
-                                                                     invoicePaymentDate, invoiceNumber, invoiceType, warehouse, priceType, paymentType, accountingNumber, source, destination)
+                                                                     invoicePaymentDate, invoiceNumber, invoiceType, warehouse, priceType, paymentType, accountingNumber, source, destination, taxAmount)
                 QtWidgets.QMessageBox.information(
                     self, "Ok", "Invoice Created!")
                 operationsMongo.Database(
