@@ -1744,26 +1744,25 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuAbouy">
-    <property name="title">
-     <string>About</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionReport_Issue"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout_Program_2"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
     <addaction name="actionNew_Invoice"/>
+    <addaction name="actionRestart_Program"/>
+    <addaction name="actionDark_Theme"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuAbouy"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1775,6 +1774,39 @@
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionAbout_Program">
+   <property name="text">
+    <string>About Program</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>Report Issue</string>
+   </property>
+  </action>
+  <action name="actionAbout_Program_2">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionReport_Issue">
+   <property name="text">
+    <string>Report Issue</string>
+   </property>
+  </action>
+  <action name="actionDark_Theme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark Theme</string>
+   </property>
+  </action>
+  <action name="actionRestart_Program">
+   <property name="text">
+    <string>Restart Program </string>
    </property>
   </action>
  </widget>

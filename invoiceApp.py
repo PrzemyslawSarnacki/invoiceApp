@@ -1,14 +1,13 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from view import tryui
-from view import ItemDialog
+from view import ItemDialog, AboutDialog
 import operationsMongo
 import generateInvoice
 import customModel
 import qdarkstyle, os, sys
 import icons_rc
 import datetime
-
-darkStyle = False
+import test
 
 class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     invoice = None
@@ -173,12 +172,32 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1")
         self.mmNumberEdit.setText(
             "MM" + str(operationsMongo.Database("MM").getSingleLastData()["NUMER"] + 1) + "/1")
+        
+        self.actionDark_Theme.triggered.connect(self.setDarkTheme)            
+        self.actionAbout_Program_2.triggered.connect(self.openAboutItemWindow)
 
     def openAddItemWindow(self):
         self.window = QtWidgets.QDialog()
         self.ui = ItemDialog.Ui_ItemDialog()
         self.ui.setupUi(self.window)
         self.window.show()
+
+    def openAboutItemWindow(self):
+        self.window = QtWidgets.QDialog()
+        self.ui = AboutDialog.Ui_Dialog()
+        self.ui.setupUi(self.window)
+        self.window.show()
+    
+    def setDarkTheme(self):
+        if test.darkStyle == False:
+            test.darkStyle = True
+            app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+        else:
+            test.darkStyle = False
+            app.setStyleSheet("Fusion")
+
+
+        
 
     def setDocumentPreview(self):
         if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
@@ -588,7 +607,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     app.setStyle("Fusion")
-    if darkStyle:
+    if test.darkStyle:
         app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     my_app = PythonMongoDB()
     my_app.show()
