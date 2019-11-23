@@ -194,6 +194,11 @@ class CustomTableModel(QtCore.QAbstractTableModel):
                 "PZ").getSingleLastData()["NR_KOD"] + 1
             operationsMongo.Database("TEMPPZ").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
                 amountOfStuff)*float(itemPrice), "KOD": itemCode, "PREVID": document_id})
+        elif tempList == "TEMPMM":
+            invoiceCode = operationsMongo.Database(
+                "MM").getSingleLastData()["NR_KOD"] + 1
+            operationsMongo.Database("TEMPMM").insertData({"NR_KOD": invoiceCode, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff, "WARTOSC": float(
+                amountOfStuff)*float(itemPrice), "KOD": itemCode, "PREVID": document_id})
 
         itemAndCountMultiplied = float(itemPrice) * float(amountOfStuff)
         return itemAndCountMultiplied

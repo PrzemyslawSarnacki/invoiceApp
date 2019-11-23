@@ -158,6 +158,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.invoiceGenerationDateEdit_2.setDate(datetime.datetime.now())
         self.invoicePaymentDateEdit_2.setDate(datetime.datetime.now())
         self.invoiceSaleDateEdit_3.setDate(datetime.datetime.now())
+        self.mmGenerationDateEdit.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(
             self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
         self.invoiceTypeComboBox.currentTextChanged.connect(
@@ -166,8 +167,12 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
         self.accountingNumberSpinBox_2.setValue(
             operationsMongo.Database("KU").getSingleLastData()["NR_KSIEG"] + 1)
+        self.mmAccountingNumberSpinBox.setValue(
+            operationsMongo.Database("MM").getSingleLastData()["NUMER"] + 1)
         self.invoiceNumberEdit.setText(
             "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1")
+        self.mmNumberEdit.setText(
+            "MM" + str(operationsMongo.Database("MM").getSingleLastData()["NUMER"] + 1) + "/1")
 
     def openAddItemWindow(self):
         self.window = QtWidgets.QDialog()
