@@ -166,6 +166,33 @@ class Database:
                                        "IL_PRZYCH": amountOfStuff, "IL_ROZCH": 0.0, "IL_ZAPAS": ILOSC, "WR_PRZYCH": float(amountOfStuff)*float(itemPrice), "WR_ROZCH": 0.0, "WR_ZAPAS": float(ILOSC)*float(itemPrice), "KOD": itemCode, "ZNACZNIK": ''})
 
         return document.acknowledged
+    
+    def shiftBetweenWarehouses(self, document_id, listPosition, amountOfStuff, invoiceGenerationDate, accountingNumber, invoiceNumber, source, destination):
+        document = self.collection.find_one({'_id': ObjectId(document_id)})
+        itemName = document["NAZWA"]
+        itemPrice = float(document["KOSZT"])
+        itemCode = document["KOD"]
+        invoiceCode = Database("MM").getSingleLastData()["NR_KOD"] + 1
+        # generateInvoice.addItemToInvoice(invoice, amountOfStuff, itemName, itemPrice)
+        Database("MMZAW").insertData({"NR_KOD": invoiceCode, "LP": listPosition, "LEK": itemName, "CENA": itemPrice,
+                                      "ILOSC": amountOfStuff, "WARTOSC": float(amountOfStuff)*float(itemPrice), "KOD": itemCode})
+        invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
+        if source == "Magazyn Główny":
+            ILOSC = float(document['ILOSC'])
+            ILOSC += amountOfStuff
+            document = self.collection.update_one(
+                {'_id': ObjectId(document_id)}, {'$set': {'ILOSC': ILOSC}})
+            Database("KARTA1").insertData({"STR_DZIENN": '', "DATA": invoiceGenerationDate, "NR_DOWODU" : "MM " + str(accountingNumber) + "/1", "TRESC": source + " - " + destination, "CENA_JEDN": itemPrice,
+                                           "IL_PRZYCH": amountOfStuff, "IL_ROZCH": 0.0, "IL_ZAPAS": ILOSC, "WR_PRZYCH": float(amountOfStuff)*float(itemPrice), "WR_ROZCH": 0.0, "WR_ZAPAS": float(ILOSC)*float(itemPrice), "KOD": itemCode, "ZNACZNIK": ''})
+        elif source == "Magazyn Surowców":
+            ILOSC = float(document['ILOSC'])
+            ILOSC -= amountOfStuff
+            document = self.collection.update_one(
+                {'_id': ObjectId(document_id)}, {'$set': {'ILOSC': ILOSC}})
+            Database("KARTA1").insertData({"STR_DZIENN": '', "DATA": invoiceGenerationDate, "NR_DOWODU": "MM " + str(accountingNumber) + "/1", "TRESC": source + " - " + destination, "CENA_JEDN": itemPrice, "IL_PRZYCH": 0.0,
+                                "IL_ROZCH": amountOfStuff, "IL_ZAPAS": ILOSC, "WR_PRZYCH": 0.0, "WR_ROZCH": float(amountOfStuff)*float(itemPrice), "WR_ZAPAS": float(ILOSC)*float(itemPrice), "KOD": itemCode, "ZNACZNIK": ''})
+
+        return document.acknowledged
 
     def createWZ(self, totalAmount, wzGenerationDate, wzNumber, wzType, warehouse, priceType, destination="super"):
         wzCode = Database("WZ").getSingleLastData()["NR_KOD"] + 1
@@ -191,7 +218,21 @@ class Database:
         invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
         Database("PZ").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "NUMER": accountingNumber, "SKAD": source,
                                    "DOKAD": destination, "WARTOSC": totalAmount, "R_CEN": priceType, "MAGAZYN": int(warehouse), "ZAT": "PRAWDA", "NOP": 1})
-
+    
+    def createMM(self, totalAmount, invoiceGenerationDate, invoiceNumber, warehouse, accountingNumber, source, destination):
+        invoiceCode = Database("MM").getSingleLastData()["NR_KOD"] + 1
+        if source == "Magazyn Główny":
+            warehouse = 1
+            destinationWarehouse = 2
+        elif source == "Magazyn Surowców":
+            warehouse = 2
+            destinationWarehouse = 1
+        
+        Database("MM").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate,"NUMER": accountingNumber, "SKAD": source, "DOKAD": destination, "WARTOSC": totalAmount, 
+                                    "R_CEN": "S", "MAGAZYN": warehouse,"MAGAZYN_DO": destinationWarehouse, "ZAT": "PRAWDA", "NOP": 1})
+        # invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
+        # Database("PZ").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "NUMER": accountingNumber, "SKAD": source,
+        #                            "DOKAD": destination, "WARTOSC": totalAmount, "R_CEN": priceType, "MAGAZYN": int(warehouse), "ZAT": "PRAWDA", "NOP": 1})
 
     def addDataToInvoiceList(self, document_id, invoice, amountOfStuff, tempList):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
@@ -207,6 +248,9 @@ class Database:
         elif tempList == "TEMPKU":
             Database("TEMPKU").insertData({"NR_KOD": 1, "LP": 1, "LEK": itemName, "NUMER": 'null', "CENA": itemPrice, "ILOSC": amountOfStuff,
                                            "WARTOSC": amountOfStuff, "KOD": itemCode, "PODAT": 23.0, "KONTO_KU": '', "UPUST": 0.0, "JEST_VAT": "PRAWDA", "PREVID": ''})
+        elif tempList == "TEMPMM":
+            Database("TEMPMM").insertData({"NR_KOD": 1, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff,
+                                           "WARTOSC": amountOfStuff, "KOD": itemCode, "PREVID": ''})
         return True
 
     def clearTemporaryTableForInvoice(self):
@@ -218,6 +262,11 @@ class Database:
         Database("TEMPKU").removeMultipleData()
         Database("TEMPKU").insertData({"NR_KOD": 1, "LP": '', "LEK": "", "NUMER": '', "CENA": '', "ILOSC": '',
                                        "WARTOSC": '', "KOD": "", "PODAT": '', "KONTO_KU": '', "UPUST": '', "JEST_VAT": "", "PREVID": ''})
+    
+    def clearTemporaryTableForMM(self):
+        Database("TEMPMM").removeMultipleData()
+        Database("TEMPMM").insertData({"NR_KOD": 1, "LP": 1, "LEK": '', "CENA": '', "ILOSC": '',
+                                           "WARTOSC": '', "KOD": "", "PREVID": ''})
     # search_this = "Aceton"
     # dbprice, dbname = searchForItem(search_this)
     # print(dbname)
@@ -236,3 +285,4 @@ class Database:
 # Database("KONTRAH").create_index([('Rejestr', 'text')])
 Database("TEMPSP").clearTemporaryTableForInvoice()
 Database("TEMPKU").clearTemporaryTableForPurchaseInvoice()
+Database("TEMPMM").clearTemporaryTableForMM()

@@ -676,143 +676,6 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tab_2">
-         <attribute name="title">
-          <string>Show Invoices</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_8">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetNoConstraint</enum>
-          </property>
-          <item row="0" column="0">
-           <widget class="QFrame" name="frame_3">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_7">
-             <item row="2" column="1">
-              <widget class="QPushButton" name="pushButton_6">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="sortInvoicesPushButton_5">
-               <property name="text">
-                <string>Sort</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="4">
-              <widget class="QTableView" name="tableView_4">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::SingleSelection</enum>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="sortingEnabled">
-                <bool>true</bool>
-               </property>
-               <attribute name="horizontalHeaderCascadingSectionResizes">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="horizontalHeaderStretchLastSection">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="verticalHeaderCascadingSectionResizes">
-                <bool>false</bool>
-               </attribute>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QPushButton" name="pushButton_7">
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QComboBox" name="documentsTypeComboBox">
-               <item>
-                <property name="text">
-                 <string>Invoices</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Purchase Invoices</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>WZ</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>PZ</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>MZ</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>MM</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>RW</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Settlement</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Warehouse Card 1</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Warehouse Card 2</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="tab_3">
-         <attribute name="title">
-          <string>WZ</string>
-         </attribute>
-        </widget>
         <widget class="QWidget" name="tab_4">
          <attribute name="title">
           <string>Purchase Invoice</string>
@@ -1459,6 +1322,413 @@
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Show Invoices</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetNoConstraint</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QFrame" name="frame_3">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_7">
+             <item row="2" column="1">
+              <widget class="QPushButton" name="pushButton_6">
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="sortInvoicesPushButton_5">
+               <property name="text">
+                <string>Sort</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="4">
+              <widget class="QTableView" name="tableView_4">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::SingleSelection</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <attribute name="horizontalHeaderCascadingSectionResizes">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="horizontalHeaderStretchLastSection">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="verticalHeaderCascadingSectionResizes">
+                <bool>false</bool>
+               </attribute>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QPushButton" name="pushButton_7">
+               <property name="text">
+                <string>PushButton</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QComboBox" name="documentsTypeComboBox">
+               <item>
+                <property name="text">
+                 <string>Invoices</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Purchase Invoices</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>WZ</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>PZ</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MZ</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>MM</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>RW</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Settlement</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Warehouse Card 1</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Warehouse Card 2</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_3">
+         <attribute name="title">
+          <string>MM</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_22">
+          <item row="0" column="0">
+           <widget class="QFrame" name="frame_10">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_20">
+             <item row="0" column="0">
+              <widget class="QFrame" name="frame_11">
+               <layout class="QGridLayout" name="gridLayout_17">
+                <item row="2" column="0">
+                 <widget class="QFrame" name="frame_13">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>200</height>
+                   </size>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_18">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="MMNumberLabel">
+                     <property name="text">
+                      <string>Nr Dokumentu:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="sourceWarehouseLabel">
+                     <property name="text">
+                      <string>Skąd:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLineEdit" name="mmNumberEdit"/>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QComboBox" name="sourceWarehouseComboBox">
+                     <item>
+                      <property name="text">
+                       <string>Magazyn Główny </string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Magazyn Surowców</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="accountinNumberMMLabel">
+                     <property name="text">
+                      <string>Nr księgowy:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLabel" name="destinationWarehouseLabel">
+                     <property name="text">
+                      <string>Dokąd:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QSpinBox" name="mmAccountingNumberSpinBox"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QComboBox" name="destinationWarehouseComboBox">
+                     <item>
+                      <property name="text">
+                       <string>Magazyn Surowców</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Magazyn Główny </string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QLabel" name="invoiceGenerationDateLabel_5">
+                     <property name="text">
+                      <string>Data wystawienia:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QLabel" name="confirmationSelectLabel">
+                     <property name="text">
+                      <string>Zatwierdzone</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QDateEdit" name="mmGenerationDateEdit"/>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QComboBox" name="confirmationComboBox">
+                     <item>
+                      <property name="text">
+                       <string>Prawda</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Fałsz</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="4">
+                 <widget class="QFrame" name="frame_14">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_19">
+                   <item row="0" column="0" colspan="4">
+                    <widget class="QTableView" name="tableView_9">
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::SingleSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>50</width>
+                       <height>50</height>
+                      </size>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QPushButton" name="searchItemsByCityButton_3">
+                     <property name="text">
+                      <string>Empty</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QPushButton" name="searchItemByCodeButton_3">
+                     <property name="text">
+                      <string>Search by Code</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QPushButton" name="searchItemByGroupButton_3">
+                     <property name="text">
+                      <string>Search by Group</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="3">
+                    <widget class="QPushButton" name="searchForItemButton_3">
+                     <property name="text">
+                      <string>Search by Name</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="2" column="1" colspan="3">
+                 <widget class="QFrame" name="frame_12">
+                  <property name="maximumSize">
+                   <size>
+                    <width>100000</width>
+                    <height>100000</height>
+                   </size>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_21">
+                   <property name="sizeConstraint">
+                    <enum>QLayout::SetDefaultConstraint</enum>
+                   </property>
+                   <item row="0" column="0" colspan="2">
+                    <widget class="QTableView" name="tableView_10"/>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLabel" name="nettoAmountResultLabel_3">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLabel" name="totalAmountResultLabel_3">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="nettoAmountLabel_3">
+                     <property name="text">
+                      <string>Netto Amount:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0" colspan="2">
+                    <widget class="QPushButton" name="generateInvoiceButton_3">
+                     <property name="text">
+                      <string>Generate Invoice</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="totalAmountLabel_3">
+                     <property name="text">
+                      <string>Total Amount:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -1479,9 +1749,34 @@
      <string>About</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_Invoice"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+   </widget>
+   <addaction name="menuFile"/>
    <addaction name="menuAbouy"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew_Invoice">
+   <property name="text">
+    <string>New Invoice</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="icons.qrc"/>

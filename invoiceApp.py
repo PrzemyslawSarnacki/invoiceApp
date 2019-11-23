@@ -94,7 +94,25 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.tableView_7.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.tableView_7.customContextMenuRequested.connect(
             lambda: self.context_menu(self.model_7, self.tableView_7))
+        
 
+        self.model_9 = customModel.CustomTableModel(self.user_data, "ASOR")
+        self.tableView_9.setModel(self.model_9)
+        self.tableView_9.setItemDelegate(self.delegate)
+        self.tableView_9.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.tableView_9.customContextMenuRequested.connect(
+            lambda: self.context_menu(self.model_9, self.tableView_9))
+            
+        self.user_data_10 = operationsMongo.Database("TEMPMM").getMultipleData()
+        self.model_10 = customModel.CustomTableModel(self.user_data_10, "TEMPMM")
+        self.tableView_10.setModel(self.model_10)
+        self.tableView_10.setItemDelegate(self.delegate)
+        self.tableView_10.hideRow(0)
+        self.tableView_10.hideColumn(0)
+        self.tableView_10.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.tableView_10.customContextMenuRequested.connect(
+            lambda: self.context_menu(self.model_10, self.tableView_10))
+        
         self.generateInvoiceButton.clicked.connect(
             self.generateInvoiceFinalAction)
         self.generateInvoiceButton_2.clicked.connect(
@@ -313,6 +331,40 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         except UnboundLocalError:
             QtWidgets.QMessageBox.critical(
                 self, "Błąd", "Wypełnij fakturę!")
+    
+    def generateMMFinalAction(self):
+        # if not self.invoiceNumberEdit.text():
+        #     QtWidgets.QMessageBox.critical(
+        #                 self, "Błąd", "Wypełnij komórkę!")
+        totalAmount = 0
+        finalInvoiceList = operationsMongo.Database("TEMPMM").getMultipleData()
+        accountingNumber = self.mmAccountingNumberSpinBox.value()
+        invoiceGenerationDate = self.mmGenerationDateEdit.date().toString("dd.MM.yyyy")
+        invoiceNumber = self.mmNumberEdit.text()
+        source = self.sourceWarehouseComboBox.currentText()
+        destination = self.destinationWarehouseComboBox.currentText()
+        listPosition = 0
+        for invoiceFinalItem in finalInvoiceList[1:]:
+            listPosition += 1
+            amountOfStuff = float((invoiceFinalItem)["ILOSC"])
+            document_id = (invoiceFinalItem)["PREVID"]
+            ok = operationsMongo.Database("ASOR").shiftBetweenWarehouses(
+                document_id, listPosition, amountOfStuff, invoiceGenerationDate, accountingNumber, invoiceNumber, source, destination)
+            totalAmount += amountOfStuff * (invoiceFinalItem["CENA"])
+        try:
+            if ok:
+                invoiceGenerationDate = self.invoiceGenerationDateEdit_2.date().toString("dd.MM.yyyy")
+                warehouse = self.warehouseSelectComboBox_3.currentText()
+                source = self.sourceEdit.text()
+                destination = self.destinationEdit.text()
+                operationsMongo.Database("MM").createMM(totalAmount, invoiceGenerationDate ,invoiceNumber, warehouse, accountingNumber, source, destination)
+                QtWidgets.QMessageBox.information(
+                    self, "Ok", "Invoice Created!")
+                operationsMongo.Database(
+                    "TEMPKU").clearTemporaryTableForPurchaseInvoice()
+        except UnboundLocalError:
+            QtWidgets.QMessageBox.critical(
+                self, "Błąd", "Wypełnij fakturę!")
 
     def getAmountOfStuff(self, varModel, varTableView):
         if PythonMongoDB.invoice != None or self.clientResultLabel_2 != "Not selected yet":
@@ -324,6 +376,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                     tempList = "TEMPSP"
                 elif varModel == self.model_6:
                     tempList = "TEMPKU"
+                elif varModel == self.model_9:
+                    tempList = "TEMPMM"
                 itemAndCountMultiplied = varModel.addRowsToInvoice(
                     varTableView.currentIndex(), amountOfStuff, tempList)
                 PythonMongoDB.nettoAmount += itemAndCountMultiplied
@@ -342,6 +396,13 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                     self.nettoAmountResultLabel_2.setText(
                         str(PythonMongoDB.nettoAmount))
                     self.totalAmountResultLabel_2.setText(
+                        str(PythonMongoDB.totalAmount))
+                elif tempList == "TEMPMM":
+                    self.refreshTable(operationsMongo.Database(
+                        tempList).getMultipleData(), selectTable=10)
+                    self.nettoAmountResultLabel_3.setText(
+                        str(PythonMongoDB.nettoAmount))
+                    self.totalAmountResultLabel_3.setText(
                         str(PythonMongoDB.totalAmount))
         else:
             QtWidgets.QMessageBox.critical(
@@ -378,6 +439,12 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif selectTable == 7:
             self.model_7 = customModel.CustomTableModel(varUserData, "TEMPKU")
             self.tableView_7.setModel(self.model_7)
+        elif selectTable == 9:
+            self.model_9 = customModel.CustomTableModel(varUserData, "ASOR")
+            self.tableView_9.setModel(self.model_9)
+        elif selectTable == 10:
+            self.model_10 = customModel.CustomTableModel(varUserData, "TEMPMM")
+            self.tableView_10.setModel(self.model_10)
 
     def searchItemByName(self, varModel, varTableView, varUserData, collectionName, searchedKey):
         searchPhrase, ok = QtWidgets.QInputDialog.getText(
@@ -448,6 +515,12 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif varModel == self.model_7:
             refresh_data.triggered.connect(lambda: self.refreshTable(
                 operationsMongo.Database("TEMPKU").getMultipleData(), 7))
+        elif varModel == self.model_9:
+            refresh_data.triggered.connect(lambda: self.refreshTable(
+                operationsMongo.Database("ASOR").getMultipleData(), 9))
+        elif varModel == self.model_10:
+            refresh_data.triggered.connect(lambda: self.refreshTable(
+                operationsMongo.Database("TEMPMM").getMultipleData(), 10))
 
         if varModel == self.model:
             add_to_invoice = menu.addAction("Add This To Invoice")
@@ -461,6 +534,11 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             set_client_for_invoice.triggered.connect(
                 lambda: self.setClient(varModel, varTableView))
         elif varModel == self.model_6:
+            add_to_invoice = menu.addAction("Add This To Invoice")
+            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/choose.png"))
+            add_to_invoice.triggered.connect(
+                lambda: self.getAmountOfStuff(varModel, varTableView))
+        elif varModel == self.model_9:
             add_to_invoice = menu.addAction("Add This To Invoice")
             add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/choose.png"))
             add_to_invoice.triggered.connect(
