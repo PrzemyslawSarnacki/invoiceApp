@@ -113,6 +113,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.invoiceSaleDateEdit_3.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
         self.invoiceTypeComboBox.currentTextChanged.connect(self.setInvoiceNumberLine)
+        self.invoiceNumberEdit.setText("H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1")
 
     def openAddItemWindow(self):
         self.window = QtWidgets.QDialog()
@@ -141,10 +142,24 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     
     def setInvoiceNumberLine(self):
         if self.invoiceTypeComboBox.currentText() == "Hurtowa":
-            numberString = "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1"
+            number = (operationsMongo.Database("SP").searchForItem("H", "SP", "TYP_FS"))[-1]["NUMER"]
+            self.accountingNumberSpinBox.setValue(number)
+            numberString = "H" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
-        elif self.invoiceTypeComboBox.currentText() == "PW":
-            numberString = "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1"
+        elif self.invoiceTypeComboBox.currentText() == "Paragon":
+            number = (operationsMongo.Database("SP").searchForItem("P", "SP", "TYP_FS"))[-1]["NUMER"]
+            self.accountingNumberSpinBox.setValue(number)
+            numberString = "P" + str(number) + "/1"
+            self.invoiceNumberEdit.setText(numberString)
+        elif self.invoiceTypeComboBox.currentText() == "Kupna":
+            number = (operationsMongo.Database("SP").searchForItem("K", "SP", "TYP_FS"))[-1]["NUMER"]
+            self.accountingNumberSpinBox.setValue(number)
+            numberString = "K" + str(number) + "/1"
+            self.invoiceNumberEdit.setText(numberString)
+        elif self.invoiceTypeComboBox.currentText() == "Detaliczna":
+            number = (operationsMongo.Database("SP").searchForItem("D", "SP", "TYP_FS"))[-1]["NUMER"]
+            self.accountingNumberSpinBox.setValue(number)
+            numberString = "D" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         
     def setClient(self, varModel, varTableView):

@@ -50,7 +50,7 @@ class Database:
         return data
 
     def getSingleDataByKey(self, certainKey, value):
-        data = self.collection.find_one({certainKey: value})
+        data = self.collection.find({}, {certainKey : 0, value : 1})
         return data
     
     def getSingleLastData(self):
