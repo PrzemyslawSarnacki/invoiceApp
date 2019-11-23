@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>invoiceApp</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>images/app.png</normaloff>images/app.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">
@@ -789,12 +793,12 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Warehouse Cards</string>
+                 <string>Warehouse Card 1</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>New Item</string>
+                 <string>Warehouse Card 2</string>
                 </property>
                </item>
               </widget>

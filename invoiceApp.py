@@ -171,6 +171,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         elif self.documentsTypeComboBox.currentText() == "Settlement":
             halfOfCollectionName = "ROZLICZE"
         elif self.documentsTypeComboBox.currentText() == "Warehouse Cards":
+            halfOfCollectionName = "KARTA1"
+        elif self.documentsTypeComboBox.currentText() == "New Item":
             halfOfCollectionName = "KARTA2"
         return halfOfCollectionName
 
@@ -422,6 +424,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     def context_menu(self, varModel, varTableView):
         menu = QtWidgets.QMenu()
         refresh_data = menu.addAction("Refresh Data")
+        refresh_data.setIcon(QtGui.QIcon(":/icons/images/refresh.png"))
         if varModel == self.model:
             refresh_data.triggered.connect(lambda: self.refreshTable(
                 operationsMongo.Database("ASOR").getMultipleData(), 1))
@@ -446,30 +449,30 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
 
         if varModel == self.model:
             add_to_invoice = menu.addAction("Add This To Invoice")
-            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/choose.png"))
             add_to_invoice.triggered.connect(
                 lambda: self.getAmountOfStuff(varModel, varTableView))
         elif varModel == self.model_2:
             set_client_for_invoice = menu.addAction("Choose this Client")
             set_client_for_invoice.setIcon(
-                QtGui.QIcon(":/icons/images/add-icon.png"))
+                QtGui.QIcon(":/icons/images/choose.png"))
             set_client_for_invoice.triggered.connect(
                 lambda: self.setClient(varModel, varTableView))
         elif varModel == self.model_6:
             add_to_invoice = menu.addAction("Add This To Invoice")
-            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_to_invoice.setIcon(QtGui.QIcon(":/icons/images/choose.png"))
             add_to_invoice.triggered.connect(
                 lambda: self.getAmountOfStuff(varModel, varTableView))
         elif varModel == self.model_5:
             set_client_for_invoice = menu.addAction("Choose this Client")
             set_client_for_invoice.setIcon(
-                QtGui.QIcon(":/icons/images/add-icon.png"))
+                QtGui.QIcon(":/icons/images/choose.png"))
             set_client_for_invoice.triggered.connect(
                 lambda: self.setClient(varModel, varTableView))
         elif varModel == self.model_4:
             show_this_invoice = menu.addAction("Show this invoice")
             show_this_invoice.setIcon(
-                QtGui.QIcon(":/icons/images/add-icon.png"))
+                QtGui.QIcon(":/icons/images/look.png"))
             try:
                 show_this_invoice.triggered.connect(lambda: self.refreshTable(
                     varModel.showInvoice(varTableView.currentIndex(), self.setDocumentPreview()), 4))
@@ -481,7 +484,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             pass
         else:
             add_data = menu.addAction("Add New Data")
-            add_data.setIcon(QtGui.QIcon(":/icons/images/add-icon.png"))
+            add_data.setIcon(QtGui.QIcon(":/icons/images/add.png"))
             add_data.triggered.connect(lambda: varModel.insertRows())
 
         if varModel == self.model_4:
@@ -489,7 +492,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         else:
             if varTableView.selectedIndexes():
                 remove_data = menu.addAction("Remove Data")
-                remove_data.setIcon(QtGui.QIcon(":/icons/images/remove.png"))
+                remove_data.setIcon(QtGui.QIcon(":/icons/images/delete.png"))
                 remove_data.triggered.connect(
                     lambda: varModel.removeRows(varTableView.currentIndex()))
         cursor = QtGui.QCursor()

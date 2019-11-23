@@ -1,8 +1,13 @@
 <RCC>
   <qresource prefix="icons">
+    <file>images/add.png</file>
+    <file>images/delete.png</file>
+    <file>images/refresh.png</file>
     <file>images/photo.jpg</file>
     <file>images/add-icon.png</file>
     <file>images/app.png</file>
     <file>images/remove.png</file>
+    <file>images/choose.png</file>
+    <file>images/look.png</file>
   </qresource>
 </RCC>
