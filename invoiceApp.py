@@ -60,7 +60,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             lambda: self.context_menu(self.model_3, self.tableView_3))
 
         self.user_data_4 = operationsMongo.Database(
-            "SP").sortDescending("SP", "NR_KOD")
+            "SP").sortDescending("NR_KOD")
         self.model_4 = customModel.CustomTableModel(self.user_data_4, "SP")
         self.tableView_4.setModel(self.model_4)
         self.tableView_4.setItemDelegate(self.delegate)
@@ -159,7 +159,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         self.invoiceSaleDateEdit_3.setDate(datetime.datetime.now())
         self.mmGenerationDateEdit.setDate(datetime.datetime.now())
         self.documentsTypeComboBox.currentTextChanged.connect(lambda: self.refreshTable(operationsMongo.Database(
-            self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
+            self.setDocumentPreview()).sortDescending("NR_KOD"), 4))
         self.invoiceTypeComboBox.currentTextChanged.connect(
             self.setInvoiceNumberLine)
         self.accountingNumberSpinBox.setValue(
@@ -196,9 +196,6 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             test.darkStyle = False
             app.setStyleSheet("Fusion")
 
-
-        
-
     def setDocumentPreview(self):
         if self.documentsTypeComboBox.currentText() == "Purchase Invoices":
             halfOfCollectionName = "KU"
@@ -223,25 +220,25 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
     def setInvoiceNumberLine(self):
         if self.invoiceTypeComboBox.currentText() == "Hurtowa":
             number = (operationsMongo.Database("SP").searchForItem(
-                "H", "SP", "TYP_FS"))[-1]["NUMER"] + 1
+                "H", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "H" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Paragon":
             number = (operationsMongo.Database("SP").searchForItem(
-                "P", "SP", "TYP_FS"))[-1]["NUMER"] + 1
+                "P", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "P" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Kupna":
             number = (operationsMongo.Database("SP").searchForItem(
-                "K", "SP", "TYP_FS"))[-1]["NUMER"] + 1
+                "K", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "K" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
         elif self.invoiceTypeComboBox.currentText() == "Detaliczna":
             number = (operationsMongo.Database("SP").searchForItem(
-                "D", "SP", "TYP_FS"))[-1]["NUMER"] + 1
+                "D", "TYP_FS"))[-1]["NUMER"] + 1
             self.accountingNumberSpinBox.setValue(number)
             numberString = "D" + str(number) + "/1"
             self.invoiceNumberEdit.setText(numberString)
@@ -477,10 +474,10 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             if ok:
                 if varModel == self.model:
                     self.refreshTable((operationsMongo.Database(collectionName).searchForItem(
-                        searchPhrase, collectionName, searchedKey)), selectTable=1)
+                        searchPhrase, searchedKey)), selectTable=1)
                 elif varModel == self.model_6:
                     self.refreshTable((operationsMongo.Database(collectionName).searchForItem(
-                        searchPhrase, collectionName, searchedKey)), selectTable=6)
+                        searchPhrase, searchedKey)), selectTable=6)
         except IndexError:
             QtWidgets.QMessageBox.critical(
                 self, "Błąd", "Brak takiej pozycji!")
@@ -492,10 +489,10 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             if ok:
                 if varModel == self.model:
                     self.refreshTable((operationsMongo.Database(collectionName).searchByNumer(
-                        searchPhrase, collectionName, searchedKey)), selectTable=1)
+                        searchPhrase, searchedKey)), selectTable=1)
                 elif varModel == self.model_2:
                     self.refreshTable((operationsMongo.Database(collectionName).searchByNumer(
-                        int(searchPhrase), collectionName, searchedKey)), selectTable=2)
+                        int(searchPhrase), searchedKey)), selectTable=2)
         except IndexError:
             QtWidgets.QMessageBox.critical(
                 self, "Błąd", "Brak takiej pozycji!")
@@ -509,7 +506,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
         try:
             if ok:
                 self.refreshTable((operationsMongo.Database(collectionName).searchForItem(
-                    searchPhrase, collectionName, searchedKey)), selectTable=2)
+                    searchPhrase, searchedKey)), selectTable=2)
         except IndexError:
             QtWidgets.QMessageBox.critical(
                 self, "Błąd", "Brak takiej pozycji!")
@@ -529,7 +526,7 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
                 operationsMongo.Database("TEMPSP").getMultipleData(), 3))
         elif varModel == self.model_4:
             refresh_data.triggered.connect(lambda: self.refreshTable(operationsMongo.Database(
-                self.setDocumentPreview()).sortDescending(self.setDocumentPreview(), "NR_KOD"), 4))
+                self.setDocumentPreview()).sortDescending("NR_KOD"), 4))
         elif varModel == self.model_5:
             refresh_data.triggered.connect(lambda: self.refreshTable(
                 operationsMongo.Database("KONTRAH").getMultipleData(), 5))

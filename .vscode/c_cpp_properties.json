@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/Users/Przemysław/Downloads/waspmote-pro-ide-v06.15/hardware/waspmote/avr/cores/waspmote-api"
             ],
             "defines": [
                 "_DEBUG",

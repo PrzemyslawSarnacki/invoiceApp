@@ -18,20 +18,20 @@ class Database:
 # in collection(NAZWA in this case)
 # collection.create_index([('NAZWA', 'text')])
 
-    def searchForItem(self, search_this, collection, searchedKey):
+    def searchForItem(self, search_this, searchedKey):
         # data = self.collection.find({"$text": {"$searcth": "/" + search_this + "/"}})
         data = self.collection.find({searchedKey: {"$regex":  search_this}})
         return list(data)
 
-    def searchByNumer(self, search_this, collection, searchedKey):
+    def searchByNumer(self, search_this, searchedKey):
         data = self.collection.find({searchedKey: search_this})
         return list(data)
 
-    def sortAscending(self, collection, collumnToSort):
+    def sortAscending(self, collumnToSort):
         data = self.collection.find().sort(collumnToSort, pymongo.ASCENDING)
         return list(data)
 
-    def sortDescending(self, collection, collumnToSort):
+    def sortDescending(self, collumnToSort):
         data = self.collection.find().sort(collumnToSort, pymongo.DESCENDING)
         return list(data)
 

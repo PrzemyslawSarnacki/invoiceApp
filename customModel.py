@@ -119,10 +119,10 @@ class CustomTableModel(QtCore.QAbstractTableModel):
             self.layoutAboutToBeChanged.emit()
             if not order:
                 self.user_data = operationsMongo.Database(
-                    self.collection).sortAscending(self.collection, self.columns[Ncol])
+                    self.collection).sortAscending(self.columns[Ncol])
             else:
                 self.user_data = operationsMongo.Database(
-                    self.collection).sortDescending(self.collection, self.columns[Ncol])
+                    self.collection).sortDescending(self.columns[Ncol])
             self.layoutChanged.emit()
         except Exception as e:
             print(e)
@@ -159,7 +159,7 @@ class CustomTableModel(QtCore.QAbstractTableModel):
         row_id = position.row()
         document_id = self.user_data[row_id]['NR_KOD']
         data = operationsMongo.Database(
-            collumnType + "ZAW").searchByNumer(document_id, (collumnType + "ZAW"), "NR_KOD")
+            collumnType + "ZAW").searchByNumer(document_id, "NR_KOD")
         return list(data)
 
     def addRowsToInvoice(self, position, amountOfStuff, tempList):
