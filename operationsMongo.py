@@ -233,6 +233,18 @@ class Database:
         # invoiceCode = Database("PZ").getSingleLastData()["NR_KOD"] + 1
         # Database("PZ").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate, "NUMER": accountingNumber, "SKAD": source,
         #                            "DOKAD": destination, "WARTOSC": totalAmount, "R_CEN": priceType, "MAGAZYN": int(warehouse), "ZAT": "PRAWDA", "NOP": 1})
+    
+    def createRW(self, totalAmount, invoiceGenerationDate, invoiceNumber, warehouse, accountingNumber, source, destination):
+        invoiceCode = Database("MM").getSingleLastData()["NR_KOD"] + 1
+        if source == "Magazyn Główny":
+            warehouse = 1
+            destinationWarehouse = 2
+        elif source == "Magazyn Surowców":
+            warehouse = 2
+            destinationWarehouse = 1
+        
+        Database("MM").insertData({"NR_KOD": invoiceCode, "DATA": invoiceGenerationDate,"NUMER": accountingNumber, "SKAD": source, "DOKAD": destination, "WARTOSC": totalAmount, 
+                                    "R_CEN": "S", "MAGAZYN": warehouse,"MAGAZYN_DO": destinationWarehouse, "ZAT": "PRAWDA", "NOP": 1})
 
     def addDataToInvoiceList(self, document_id, invoice, amountOfStuff, tempList):
         document = self.collection.find_one({'_id': ObjectId(document_id)})
@@ -251,6 +263,9 @@ class Database:
         elif tempList == "TEMPMM":
             Database("TEMPMM").insertData({"NR_KOD": 1, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff,
                                            "WARTOSC": amountOfStuff, "KOD": itemCode, "PREVID": ''})
+        elif tempList == "TEMPRW":
+            Database("TEMPRW").insertData({"NR_KOD": 1, "LP": 1, "LEK": itemName, "CENA": itemPrice, "ILOSC": amountOfStuff,
+                                           "WARTOSC": amountOfStuff, "KOD": itemCode, "PREVID": ''})
         return True
 
     def clearTemporaryTableForInvoice(self):
@@ -266,6 +281,11 @@ class Database:
     def clearTemporaryTableForMM(self):
         Database("TEMPMM").removeMultipleData()
         Database("TEMPMM").insertData({"NR_KOD": 1, "LP": 1, "LEK": '', "CENA": '', "ILOSC": '',
+                                           "WARTOSC": '', "KOD": "", "PREVID": ''})
+    
+    def clearTemporaryTableForRW(self):
+        Database("TEMPRW").removeMultipleData()
+        Database("TEMPRW").insertData({"NR_KOD": 1, "LP": 1, "LEK": '', "CENA": '', "ILOSC": '',
                                            "WARTOSC": '', "KOD": "", "PREVID": ''})
     # search_this = "Aceton"
     # dbprice, dbname = searchForItem(search_this)
@@ -286,3 +306,4 @@ class Database:
 Database("TEMPSP").clearTemporaryTableForInvoice()
 Database("TEMPKU").clearTemporaryTableForPurchaseInvoice()
 Database("TEMPMM").clearTemporaryTableForMM()
+Database("TEMPRW").clearTemporaryTableForRW()
