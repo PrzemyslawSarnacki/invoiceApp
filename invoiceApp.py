@@ -164,6 +164,8 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             self.setInvoiceNumberLine)
         self.accountingNumberSpinBox.setValue(
             operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1)
+        
+
         self.accountingNumberSpinBox_2.setValue(
             operationsMongo.Database("KU").getSingleLastData()["NR_KSIEG"] + 1)
         self.mmAccountingNumberSpinBox.setValue(
@@ -172,6 +174,9 @@ class PythonMongoDB(tryui.Ui_MainWindow, QtWidgets.QMainWindow):
             "H" + str(operationsMongo.Database("SP").getSingleLastData()["NUMER"] + 1) + "/1")
         self.mmNumberEdit.setText(
             "MM" + str(operationsMongo.Database("MM").getSingleLastData()["NUMER"] + 1) + "/1")
+        
+        self.accountingNumberSpinBox.valueChanged.connect(lambda : self.invoiceNumberEdit.setText("H" + str(self.accountingNumberSpinBox.value()) + "/1"))
+        self.mmAccountingNumberSpinBox.valueChanged.connect(lambda : self.mmNumberEdit.setText("MM" + str(self.mmAccountingNumberSpinBox.value()) + "/1"))
         
         self.actionDark_Theme.triggered.connect(self.setDarkTheme)            
         self.actionAbout_Program_2.triggered.connect(self.openAboutItemWindow)
